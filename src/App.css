@@ -240,7 +240,8 @@ header {
   transition: opacity 300ms ease-in, width 300ms ease-in, height 300ms ease-in; }
 
 .collapsed > * {
-  display: none; }
+  display: none !important;
+  height: 0px !important; }
 
 @media (min-width: 0px) and (max-width: 920px) {
   .list-container {
@@ -322,6 +323,10 @@ header {
 .list-entry-delete-button:active {
   background: #B5A591; }
 
+.list-color-picker-collapse-container {
+  width: 100%;
+  height: auto; }
+
 .list-color-picker-container hr {
   width: 95%;
   border: 1px solid #606060; }
@@ -381,6 +386,16 @@ header {
   margin: 5px 0;
   border: 1px solid black;
   width: 100%; }
+
+.list-color-wheel-controls-collapse-button {
+  background: #E88714;
+  border: 1px solid #555;
+  border-bottom: none;
+  color: white;
+  float: left;
+  width: 100%;
+  text-align: center;
+  outline: none; }
 
 .list-entry-table-color {
   background: #777;

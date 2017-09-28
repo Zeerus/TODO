@@ -1,3 +1,8 @@
+.list-color-picker-collapse-container{
+    width: 100%;
+    height: auto;
+}
+
 .list-color-picker-container{
     hr{
         width: 95%;
@@ -70,6 +75,17 @@
     margin: 5px 0;
     border: 1px solid black;
     width: 100%;
+}
+
+.list-color-wheel-controls-collapse-button{
+    background: $primary-color;
+    border: 1px solid #555;
+    border-bottom: none;
+    color: white;
+    float: left;
+    width: 100%;
+    text-align: center;
+    outline: none;
 }
 
 .list-entry-table-color{
