@@ -1,0 +1,73 @@
+.list-color-picker-container{
+    hr{
+        width: 95%;
+        border: 1px solid #606060;
+    }
+}
+
+.list-color-wheel-container{
+    display: block;
+    width: 210px;
+    height: 210px;
+    margin: 5px auto;
+}
+
+.list-color-picker-canvas {
+    padding: 5px;
+}
+
+.list-color-wheel-labels{
+    font-family: "Droid Mono", monospace;
+    color: white;
+    width: 20%;
+}
+
+.list-color-wheel-slider-container{
+    width: 90%;
+    height: 24px;
+    margin: 10px 5%;
+    text-align: center;
+    background: white;
+}
+
+.list-color-wheel-sliders{
+    width: 90%;
+    margin: 0;
+    height: 24px;
+}
+
+.list-color-wheel-controls-submit {
+    font-family: $primary-font;
+    color: white;
+    display: inline-block;
+    margin: 5px 5%;
+    border: 1px solid white;
+    border-radius: 30px;
+    line-height: 40px;
+    background: transparent;
+    outline: none;
+    float: right;
+
+    &:hover{
+        color: $primary-color;
+        background: white;
+    }
+}
+
+.list-color-wheel-labels-container{
+    display: inline-block;
+    float: left;
+    margin-left: 5%;
+    label{
+        font-family: "Droid Mono", monospace;
+        color: white;
+    }
+}
+
+.list-color-wheel-swatch{
+    display: inline-block;
+    height: 1em;
+    margin: 5px 0;
+    border: 1px solid black;
+    width: 100%;
+}
