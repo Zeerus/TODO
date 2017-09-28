@@ -71,3 +71,34 @@
     border: 1px solid black;
     width: 100%;
 }
+
+.list-entry-table-color{
+    background: #777;
+    width: 100%;
+    border: 1px solid #606060;
+    border-top: 2px solid #606060;
+    border-collapse: collapse;
+}
+
+.list-color-entry-row{
+    height: 2em;
+    background: #777;
+    color: white;
+    border-bottom: 2px solid #606060;
+}
+
+.list-color-entry-color{
+    height: 2em;
+    width: 30%;
+    border: 1px solid black;
+}
+
+.list-color-entry-text{
+    font-weight: 300;
+    display: block;
+    padding: 2px;
+}
+
+.color-delete-button{
+    color: white;
+}

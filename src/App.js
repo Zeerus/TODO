@@ -540,7 +540,11 @@ class TODOColorPicker extends Component {
                         </label>
                     </div>
                     <button
-                        className="list-color-wheel-controls-submit">
+                        className="list-color-wheel-controls-submit"
+                        onClick={(listKey, listKeyEntryContents) => this.props.addEntryFunc(this.props.listKey, {
+                            hexString: this.createHashCode(),
+                            rgbaString: this.createRGBAString()
+                        })}>
                             Add Color
                     </button>
                 </div>
@@ -563,7 +567,7 @@ class TODOListColorEntry extends Component {
                 </td>
                 <td className="list-entry-button-container">
                     <button
-                        className="list-entry-delete-button"
+                        className="list-entry-delete-button color-delete-button"
                         onClick={(listKey, listEntry) => this.props.removeEntry(this.props.listKey, this.props.listEntryKey)}>
                             <i className="fa fa-trash"></i>
                     </button>
@@ -673,12 +677,14 @@ class TODOList extends Component {
             <div className="list-header">
                 <h1>{this.props.listName}</h1>
                 <div className="list-header-button-container">
-                    <button
-                        id={"list-header-add-entry-button" + this.props.listKey}
-                        className="list-header-button"
-                        onClick={(listKey) => this.props.addEntryFunc(this.props.listKey, '')}>
-                            <i className="fa fa-plus list-header-button-icons"></i>
-                    </button>
+                    {this.props.listType === 'default' ? (
+                            <button
+                                id={"list-header-add-entry-button" + this.props.listKey}
+                                className="list-header-button"
+                                onClick={(listKey) => this.props.addEntryFunc(this.props.listKey, '')}>
+                                    <i className="fa fa-plus list-header-button-icons"></i>
+                            </button>
+                        ) : ''}
                     <button
                         id={"list-header-collapse-button" + this.props.listKey}
                         className="list-header-button"
@@ -747,11 +753,11 @@ class App extends Component {
                         array[listKey]['collapsed'] = false;
                         array[listKey]['contents'][nextID] = {
                             id: nextID,
-                            hexCode: listKeyEntryContents['hexString'],
-                            rgbaCode: listKeyEntryContents['rgbaString']
+                            hexString: listKeyEntryContents['hexString'],
+                            rgbaString: listKeyEntryContents['rgbaString']
                         };
                         return {
-                            lists: prevState.lists,
+                            lists: array,
                             uniqueListEntryID: prevState.uniqueListEntryID + 1,
                             currentKey: prevState.currentKey
                         }
@@ -806,22 +812,42 @@ class App extends Component {
     }
 
     renderListEntries(parentListKey){
-        return Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
-            return (
-                <TODOListEntry
-                    key={key}
-                    listKey={parentListKey}
-                    listEntryKey={this.state.lists[parentListKey]['contents'][key]['id']}
-                    checked={this.state.lists[parentListKey]['contents'][key]['checked']}
-                    collapsed={this.state.lists[parentListKey]['collapsed']}
-                    listEntryText={this.state.lists[parentListKey]['contents'][key]['text']}
-                    checkEntry={(listKey, listEntryKey) => this.checkEntry(listKey, listEntryKey)}
-                    modifyEntry={(listKey, listEntryKey, content) => this.modifyListEntry(listKey, listEntryKey, content)}
-                    removeEntry={(listKey, listEntryKey) => this.removeListEntry(listKey, listEntryKey)}
-                    addListEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}
-                />
-            );
-        });
+        switch(this.state.lists[parentListKey]['type']){
+            case 'default':
+                return Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
+                    return (
+                        <TODOListEntry
+                            key={key}
+                            listKey={parentListKey}
+                            listEntryKey={this.state.lists[parentListKey]['contents'][key]['id']}
+                            checked={this.state.lists[parentListKey]['contents'][key]['checked']}
+                            collapsed={this.state.lists[parentListKey]['collapsed']}
+                            listEntryText={this.state.lists[parentListKey]['contents'][key]['text']}
+                            checkEntry={(listKey, listEntryKey) => this.checkEntry(listKey, listEntryKey)}
+                            modifyEntry={(listKey, listEntryKey, content) => this.modifyListEntry(listKey, listEntryKey, content)}
+                            removeEntry={(listKey, listEntryKey) => this.removeListEntry(listKey, listEntryKey)}
+                            addListEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}
+                        />
+                    );
+                });
+            break;
+            case 'color':
+                return Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
+                    return (
+                        <TODOListColorEntry
+                            key={key}
+                            listKey={parentListKey}
+                            listEntryKey={this.state.lists[parentListKey]['contents'][key]['id']}
+                            rgbaString={this.state.lists[parentListKey]['contents'][key]['rgbaString']}
+                            hexString={this.state.lists[parentListKey]['contents'][key]['hexString']}
+                            removeEntry={(listKey, listEntryKey) => this.removeListEntry(listKey, listEntryKey)}
+                        />
+                    );
+                });
+            break;
+            default:
+            break;
+        }
     }
 
     addList(listName, listType){
@@ -877,6 +903,7 @@ class App extends Component {
                             <TODOList
                                 listKey={this.state.lists[key]['id']}
                                 listName={this.state.lists[key]['name']}
+                                listType={this.state.lists[key]['type']}
                                 collapsed={this.state.lists[key]['collapsed']}
                                 addEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}
                                 collapseFunc={(listKey) => this.collapseList(listKey)}
@@ -885,8 +912,9 @@ class App extends Component {
                             <div
                                 className={(this.state.lists[key]['collapsed'] ? "collapsed" : "")}>
                                     <TODOColorPicker
-                                        listKey={this.state.lists[key]['id']}/>
-                                    <table className="list-entry-table">
+                                        listKey={this.state.lists[key]['id']}
+                                        addEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}/>
+                                    <table className={"list-entry-table" + (this.state.lists[key]['type'] === "color" ? "-color" : "")}>
                                         <tbody>
                                             {this.renderListEntries(key)}
                                         </tbody>
