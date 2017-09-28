@@ -824,9 +824,10 @@ class App extends Component {
     }
 
     renderListEntries(parentListKey){
+        var returnObject;
         switch(this.state.lists[parentListKey]['type']){
             case 'default':
-                return Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
+                returnObject = Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
                     return (
                         <TODOListEntry
                             key={key}
@@ -844,7 +845,7 @@ class App extends Component {
                 });
             break;
             case 'color':
-                return Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
+                returnObject = Object.keys(this.state.lists[parentListKey]['contents']).map((key) => {
                     return (
                         <TODOListColorEntry
                             key={key}
@@ -860,6 +861,7 @@ class App extends Component {
             default:
             break;
         }
+        return returnObject;
     }
 
     addList(listName, listType){
