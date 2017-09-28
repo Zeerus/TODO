@@ -553,7 +553,10 @@ class TODOListColorEntry extends Component {
     render(){
         return (
             <tr className="list-color-entry-row">
-                <td className="list-color-entry-color"></td>
+                <td
+                    className="list-color-entry-color"
+                    style={{background: this.props.hexString}}>
+                </td>
                 <td className="list-color-entry-codes">
                     <label className="list-color-entry-text">{this.props.hexString}</label>
                     <label className="list-color-entry-text">{this.props.rgbaString}</label>
@@ -699,7 +702,7 @@ class App extends Component {
         super();
         this.state = {
             currentKey: 1,
-            uniqueListEntryId: 1,
+            uniqueListEntryID: 1,
             lists: {}
         }
     }
@@ -712,7 +715,7 @@ class App extends Component {
                     this.setState((prevState, props) => {
                         var array = prevState.lists;
                         array[listKey]['collapsed'] = false;
-                        var nextID = prevState.uniqueListEntryId;
+                        var nextID = prevState.uniqueListEntryID;
                         var lastObj;
                         Object.keys(this.state.lists[listKey]['contents']).map((key) =>{
                             var index = 0;
@@ -725,19 +728,34 @@ class App extends Component {
                             array[listKey]['contents'][nextID] = {checked: false, id: nextID, text: listKeyEntryContents};
                             return {
                                 lists: prevState.lists,
-                                uniqueListEntryId: prevState.uniqueListEntryId + 1,
+                                uniqueListEntryID: prevState.uniqueListEntryID + 1,
                                 currentKey: prevState.currentKey
                             }
                         } else {
                             return {
                                 lists: prevState.lists,
-                                uniqueListEntryId: prevState.uniqueListEntryId,
+                                uniqueListEntryID: prevState.uniqueListEntryID,
                                 currentKey: prevState.currentKey
                             }
                         }
                     });
                 break;
                 case 'color':
+                    this.setState((prevState, props) => {
+                        var array = prevState.lists;
+                        var nextID = prevState.uniqueListEntryID;
+                        array[listKey]['collapsed'] = false;
+                        array[listKey]['contents'][nextID] = {
+                            id: nextID,
+                            hexCode: listKeyEntryContents['hexString'],
+                            rgbaCode: listKeyEntryContents['rgbaString']
+                        };
+                        return {
+                            lists: prevState.lists,
+                            uniqueListEntryID: prevState.uniqueListEntryID + 1,
+                            currentKey: prevState.currentKey
+                        }
+                    })
                 break;
                 default:
                 break;
@@ -752,7 +770,7 @@ class App extends Component {
                 array[listKey]['contents'][listEntryKey]['checked'] = !(array[listKey]['contents'][listEntryKey]['checked']);
                 return {
                     lists: array,
-                    uniqueListEntryId: prevState.uniqueListEntryId,
+                    uniqueListEntryID: prevState.uniqueListEntryID,
                     currentKey: prevState.currentKey
                 }
             });
@@ -766,7 +784,7 @@ class App extends Component {
                 array[listKey]['contents'][listEntryKey]['text'] = content;
                 return {
                     lists: array,
-                    uniqueListEntryId: prevState.uniqueListEntryId,
+                    uniqueListEntryID: prevState.uniqueListEntryID,
                     currentKey: prevState.currentKey
                 }
             });
@@ -780,7 +798,7 @@ class App extends Component {
                 delete array[listKey]['contents'][listEntryKey];
                 return {
                     lists: array,
-                    uniqueListEntryId: prevState.uniqueListEntryId,
+                    uniqueListEntryID: prevState.uniqueListEntryID,
                     currentKey: prevState.currentKey
                 }
             })
