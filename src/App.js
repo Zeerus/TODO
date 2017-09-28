@@ -706,33 +706,42 @@ class App extends Component {
 
     addListEntry(listKey, listKeyEntryContents){
         if(listKey && listKey.length){
-            this.setState((prevState, props) => {
-                var array = prevState.lists;
-                array[listKey]['collapsed'] = false;
-                var nextId = prevState.uniqueListEntryId;
-                var lastObj;
-                Object.keys(this.state.lists[listKey]['contents']).map((key) =>{
-                    var index = 0;
-                    if(this.state.lists[listKey]['contents'][key]['id'] > index){
-                        lastObj = this.state.lists[listKey]['contents'][key];
-                    }
-                    return null;
-                });
-                if((!lastObj) || (lastObj['text'] && lastObj['text'].length)){
-                    array[listKey]['contents'][nextId] = {checked: false, id: nextId, text: listKeyEntryContents};
-                    return {
-                        lists: prevState.lists,
-                        uniqueListEntryId: prevState.uniqueListEntryId + 1,
-                        currentKey: prevState.currentKey
-                    }
-                } else {
-                    return {
-                        lists: prevState.lists,
-                        uniqueListEntryId: prevState.uniqueListEntryId,
-                        currentKey: prevState.currentKey
-                    }
-                }
-            });
+            var listType = this.state.lists[listKey]['type'];
+            switch(listType){
+                case 'default':
+                    this.setState((prevState, props) => {
+                        var array = prevState.lists;
+                        array[listKey]['collapsed'] = false;
+                        var nextID = prevState.uniqueListEntryId;
+                        var lastObj;
+                        Object.keys(this.state.lists[listKey]['contents']).map((key) =>{
+                            var index = 0;
+                            if(this.state.lists[listKey]['contents'][key]['id'] > index){
+                                lastObj = this.state.lists[listKey]['contents'][key];
+                            }
+                            return null;
+                        });
+                        if((!lastObj) || (lastObj['text'] && lastObj['text'].length)){
+                            array[listKey]['contents'][nextID] = {checked: false, id: nextID, text: listKeyEntryContents};
+                            return {
+                                lists: prevState.lists,
+                                uniqueListEntryId: prevState.uniqueListEntryId + 1,
+                                currentKey: prevState.currentKey
+                            }
+                        } else {
+                            return {
+                                lists: prevState.lists,
+                                uniqueListEntryId: prevState.uniqueListEntryId,
+                                currentKey: prevState.currentKey
+                            }
+                        }
+                    });
+                break;
+                case 'color':
+                break;
+                default:
+                break;
+            }
         }
     }
 
@@ -797,17 +806,30 @@ class App extends Component {
         });
     }
 
-    addList(listName){
-        if(listName && listName.length){
-            this.setState((prevState, props) => {
-                var nextId = prevState.currentKey.toString();
-                prevState.lists[nextId] = {name: listName, id: nextId,collapsed: false, contents: {}};
-                return {
-                    lists: prevState.lists,
-                    currentKey: prevState.currentKey + 1,
-                };
-            });
-        }
+    addList(listName, listType){
+        if(typeof listType === "undefined" || listType === "default"){
+            if(listName && listName.length){
+                this.setState((prevState, props) => {
+                    var nextID = prevState.currentKey.toString();
+                    prevState.lists[nextID] = {name: listName, id: nextID, type: "default", collapsed: false, contents: {}};
+                    return {
+                        lists: prevState.lists,
+                        currentKey: prevState.currentKey + 1,
+                    };
+                });
+            }
+        } else if(listType === 'color'){
+            if(listName && listName.length){
+                this.setState((prevState, props) => {
+                    var nextID = prevState.currentKey.toString();
+                    prevState.lists[nextID] = {name: listName, id: nextID, type: "default", collapsed: false, contents: {}};
+                    return {
+                        lists: prevState.lists,
+                        currentKey: prevState.currentKey + 1,
+                    };
+                });
+            }
+        } else { console.error("Undefined list type")}
     }
 
     collapseList(listKey){
