@@ -549,6 +549,27 @@ class TODOColorPicker extends Component {
     }
 }
 
+class TODOListColorEntry extends Component {
+    render(){
+        return (
+            <tr className="list-color-entry-row">
+                <td className="list-color-entry-color"></td>
+                <td className="list-color-entry-codes">
+                    <label className="list-color-entry-text">{this.props.hexString}</label>
+                    <label className="list-color-entry-text">{this.props.rgbaString}</label>
+                </td>
+                <td className="list-entry-button-container">
+                    <button
+                        className="list-entry-delete-button"
+                        onClick={(listKey, listEntry) => this.props.removeEntry(this.props.listKey, this.props.listEntryKey)}>
+                            <i className="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        );
+    }
+}
+
 class TODOListEntry extends Component {
     constructor(){
         super();
