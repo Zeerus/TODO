@@ -16,7 +16,11 @@ const sass          = require('gulp-sass')
 const allSassFiles  = path.sass + '/**/*.scss'
 
 gulp.task('style', () => {
-    var cssFiles = ['/App.scss', '/TODOModule.scss', '/FullScreenDialog.scss']
+    var cssFiles = [
+        '/App.scss',
+        '/TODOModule.scss',
+        '/FullScreenDialog.scss'
+    ]
     for (var i = 0; i < cssFiles.length; i++){
         gulp.src(path.sass + cssFiles[i])
             .pipe(sass())
