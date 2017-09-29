@@ -1,4 +1,4 @@
-import './FullScreenDialog.css'
+import './FullScreenDialog.css';
 
 class FullScreenDialog extends Component {
     render(){
@@ -8,3 +8,5 @@ class FullScreenDialog extends Component {
         );
     }
 }
+
+export default FullScreenDialog;
