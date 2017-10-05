@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CSSTransitionGroup } from 'react-transition-group'
+import ReactDOM from 'react-dom';
 import './font-awesome-4.7.0/css/font-awesome.css'
 import './FullScreenDialog.css';
 
@@ -33,13 +33,13 @@ function FullScreenDialogHeader(props){
 class FullScreenDialog extends Component {
 
     submitData(){
-        if(typeof this.props.submitFunc !== undefined){
+        if(typeof this.props.submitFunc !== undefined && this.props.submitFunc){
             var args = [];
             if(this.props.prologueArgs !== undefined) args = this.props.prologueArgs;
             var index = args.length;
 
-            if(typeof this.props.submitFuncDataSpec !== undefined){
-                for(int i = 0; i < this.props.submitFuncDataSpec; i++){
+            if(typeof this.props.submitFuncDataSpec !== undefined && this.props.submitFuncDataSpec !== undefined){
+                for(var i = 0; i < this.props.submitFuncDataSpec; i++){
                     var elem = document.getElementById(this.props.submitFuncDataSpec[i]);
                     if(elem !== null && elem !== undefined){
                         args[index++] = elem.value;
@@ -59,7 +59,7 @@ class FullScreenDialog extends Component {
     }
 
     closeDialog() {
-        this.destroy();
+        ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
     }
 
     render(){
@@ -73,7 +73,8 @@ class FullScreenDialog extends Component {
                     <div className="dialog-box-submit-button-container">
                         <button
                             className="dialog-box-submit-button"
-                            onClick={this.submitData()}
+                            onClick={() => this.submitData()}>
+                        </button>
                     </div>
                 </div>
             </div>

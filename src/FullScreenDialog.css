@@ -12,3 +12,89 @@ body {
 @media (min-width: 0px) and (max-width: 920px) {
   .lists-area {
     width: 95%; } }
+
+.full-screen-splash {
+  background: rgba(0, 0, 0, 0.75);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100%;
+  z-index: 21; }
+
+.dialog-box-container {
+  background: #777;
+  position: absolute;
+  width: 33.33%;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%); }
+  @media (min-width: 0px) and (max-width: 920px) {
+    .dialog-box-container {
+      width: 90%; } }
+  @media (min-width: 921px) and (max-width: 1425px) {
+    .dialog-box-container {
+      width: 50%; } }
+
+.dialog-box-submit-button-container {
+  float: right; }
+
+.dialog-box-submit-button {
+  font-family: "Open Sans", sans-serif;
+  color: white;
+  display: inline-block;
+  margin-left: 5px;
+  border: 1px solid white;
+  border-radius: 30px;
+  line-height: 40px;
+  background: transparent;
+  outline: none; }
+  .dialog-box-submit-button:hover {
+    color: #E88714;
+    background: white; }
+
+.dialog-box-header-container {
+  font-family: "Open Sans", sans-serif;
+  color: white;
+  padding: 5px;
+  border: 1px solid #777;
+  background: #E88714; }
+  .dialog-box-header-container h1 {
+    font-family: "Open Sans", sans-serif;
+    float: left;
+    margin: 0px;
+    font-size: 20px;
+    font-weight: 400; }
+
+.dialog-box-header-container::after {
+  content: "";
+  display: table;
+  clear: both; }
+
+.dialog-box-header-button-container {
+  float: right; }
+
+.dialog-box-header-close-button {
+  color: white;
+  width: 20px;
+  height: 20px;
+  float: left;
+  background: transparent;
+  border: none;
+  border-radius: 30px;
+  text-align: center;
+  margin-left: 5px;
+  outline: none; }
+
+.dialog-box-header-close-button-icons {
+  position: relative;
+  left: -6px;
+  top: -1px;
+  display: inline-block;
+  line-height: 20px;
+  width: 20px;
+  text-align: center;
+  vertical-align: bottom; }
+
+.dialog-box-header-close-button:active {
+  background: #A6610F; }
