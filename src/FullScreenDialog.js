@@ -7,11 +7,11 @@ function FullScreenDialogHeader(props){
     return (
         <div className="dialog-box-header-container">
             <h1>this.props.title</h1>
-            <div className="dialog-box-header-buttons">
+            <div className="dialog-box-header-button-container">
                 <button
                     className="dialog-box-header-close-button"
                     onClick={() => this.props.closeFunc()}>
-                    <i className="fa fa-times"></i>
+                    <i className="fa fa-times dialog-box-header-close-button-icons"></i>
                 </button>
             </div>
         </div>
