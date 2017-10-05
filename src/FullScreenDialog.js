@@ -27,9 +27,9 @@ function FullScreenDialogHeader(props){
 //         Array of document IDs for the components to obtain the values of to be
 //         passed to your func.
 //     [prologueArgs]:
-//         Arguments to append to beginning of the args list.
+//         Arguments to append to beginning of the args list defined by sumbitFuncDataSpec.
 //     [epilogueArgs]:
-//         Arguments to append to the end of args list.
+//         Arguments to append to the end of args list defined by sumbitFuncDataSpecs.
 class FullScreenDialog extends Component {
 
     submitData(){
