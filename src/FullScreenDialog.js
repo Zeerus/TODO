@@ -44,7 +44,7 @@ class FullScreenDialog extends Component {
                     if(elem !== null && elem !== undefined){
                         args[index++] = elem.value;
                     } else {
-                        console.error("Problem with data spec in dialog submitData() function");
+                        console.error("Problem with data spec, or form content, in dialog submitData() function");
                     }
                 }
 
