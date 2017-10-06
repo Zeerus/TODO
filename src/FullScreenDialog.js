@@ -6,11 +6,11 @@ import './FullScreenDialog.css';
 function FullScreenDialogHeader(props){
     return (
         <div className="dialog-box-header-container">
-            <h1>this.props.title</h1>
+            <h1>{(typeof props.title !== undefined && props.title) ? props.title : "Dialog"}</h1>
             <div className="dialog-box-header-button-container">
                 <button
                     className="dialog-box-header-close-button"
-                    onClick={() => this.props.closeFunc()}>
+                    onClick={() => props.closeFunc()}>
                     <i className="fa fa-times dialog-box-header-close-button-icons"></i>
                 </button>
             </div>
@@ -39,7 +39,7 @@ class FullScreenDialog extends Component {
             var index = args.length;
 
             if(typeof this.props.submitFuncDataSpec !== undefined && this.props.submitFuncDataSpec !== undefined){
-                for(var i = 0; i < this.props.submitFuncDataSpec; i++){
+                for(var i = 0; i < this.props.submitFuncDataSpec.length; i++){
                     var elem = document.getElementById(this.props.submitFuncDataSpec[i]);
                     if(elem !== null && elem !== undefined){
                         args[index++] = elem.value;
@@ -47,11 +47,11 @@ class FullScreenDialog extends Component {
                         console.error("Problem with data spec, or form content, in dialog submitData() function");
                     }
                 }
-
-                if(this.props.epilogueArgs !== undefined) args.push(this.props.prologueArgs);
+                
+                if(this.props.epilogueArgs !== undefined) args = args.concat(this.props.epilogueArgs);
                 this.props.submitFunc.apply(this, args);
             } else {
-                if(this.props.epilogueArgs !== undefined) args.push(this.props.prologueArgs);
+                if(this.props.epilogueArgs !== undefined) args = args.concat(this.props.epilogueArgs);
                 this.props.submitFunc.apply(this, args);
             }
         }
@@ -59,7 +59,12 @@ class FullScreenDialog extends Component {
     }
 
     closeDialog() {
-        ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
+        if(typeof this.props.closeFunc !== undefined && this.props.closeFunc){
+            this.props.closeFunc();
+        }
+        else{
+            ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
+        }
     }
 
     render(){
@@ -68,7 +73,7 @@ class FullScreenDialog extends Component {
                 <div className="dialog-box-container">
                     <FullScreenDialogHeader
                         title={this.props.title}
-                        closeFunc={(this.props.closeFunc !== undefined) ? () => this.closeDialog() : undefined}/>
+                        closeFunc={(typeof this.props.closeFunc !== undefined && this.props.closeFunc) ? () => this.props.closeFunc() : () => this.closeDialog()}/>
                     {(this.props.content !== undefined) ? this.props.content : ''}
                     <div className="dialog-box-submit-button-container">
                         <button

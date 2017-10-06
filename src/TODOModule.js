@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CSSTransitionGroup } from 'react-transition-group'
+import FullScreenDialog from './FullScreenDialog.js'
 import './font-awesome-4.7.0/css/font-awesome.css'
 import './TODOModule.css';
 import './img/checker.jpg'
@@ -685,7 +686,9 @@ class TODOListEntry extends Component {
 
 class TODOListHeader extends Component {
     componentDidMount(){
-        this.props.addEntryFunc(this.props.listKey, '');
+        if(this.props.listType === "default"){
+            this.props.addEntryFunc(this.props.listKey, '');
+        }
     }
 
     render() {
@@ -725,7 +728,38 @@ class TODOModule extends Component {
         this.state = {
             currentKey: 1,
             uniqueListEntryID: 1,
-            lists: {}
+            lists: {},
+            dialog: {
+                title : "Dialog Test",
+                content : (
+                    <div>
+                        <label>Test</label>
+                        <input type='text' id="dialog-text-0"></input>
+                    </div>
+                ),
+                submitFuncDataSpec: ['dialog-text-0'],
+                epilogueArgs : ["color"],
+                closeFunc: function(){
+                    this.setState((prevState, props) => {
+                        prevState['dialog'] = undefined;
+                    })
+                }.bind(this),
+                submitFunc: this.addList.bind(this)
+            }
+        }
+    }
+
+    renderDialog(){
+        if(typeof this.state['dialog'] !== undefined && this.state['dialog']){
+            return (
+                <FullScreenDialog
+                    title={this.state['dialog']['title']}
+                    content={this.state['dialog']['content']}
+                    submitFuncDataSpec={this.state['dialog']['submitFuncDataSpec']}
+                    epilogueArgs={this.state['dialog']['epilogueArgs']}
+                    closeFunc={this.state['dialog']['closeFunc']}
+                    submitFunc={this.state['dialog']['submitFunc']}/>
+            )
         }
     }
 
@@ -884,7 +918,7 @@ class TODOModule extends Component {
             if(listName && listName.length){
                 this.setState((prevState, props) => {
                     var nextID = prevState.currentKey.toString();
-                    prevState.lists[nextID] = {name: listName, id: nextID, type: "default", collapsed: false, colorWheelCollapsed: false, contents: {}};
+                    prevState.lists[nextID] = {name: listName, id: nextID, type: "color", collapsed: false, colorWheelCollapsed: false, contents: {}};
                     return {
                         lists: prevState.lists,
                         currentKey: prevState.currentKey + 1,
@@ -960,6 +994,7 @@ class TODOModule extends Component {
     render() {
         return (
             <div>
+                {this.renderDialog()}
                 <div className="header-spacer"></div>
                 <TODOHeader
                     onClick={(listName) => this.addList(listName)}
