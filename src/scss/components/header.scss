@@ -126,6 +126,7 @@ header {
 
     .header-center{
         width: 90%;
+        text-align: center;
     }
 
     .header-button{
@@ -133,7 +134,7 @@ header {
     }
 }
 
-@media (min-width: 921px) and (max-width: 1425px){
+@media (min-width: 921px) and (max-width: 1276px){
     .header-center{
         width: 66%;
     }

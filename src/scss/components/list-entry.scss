@@ -16,15 +16,15 @@
 .list-entry-button-check{
     background: transparent;
     border: 1px solid #5C5449;
-    border-radius: 15px;
-    width:20px;
-    height: 20px;
+    border-radius: 30px;
+    width:40px;
+    height: 40px;
     outline: none;
 
     i{
         color: #5C5449;
         position: relative;
-        left: -4px;
+        font-size: 1.5em;
     }
 }
 
@@ -55,7 +55,7 @@
 
 .list-entry-delete-button{
     color: #5C5449;
-    width: 20px;
+    width: 30px;
     float: right;
     background: transparent;
     border: none;
@@ -67,6 +67,7 @@
     i{
         position: relative;
         left: -2px;
+        font-size: 1.5em;
     }
 }
 

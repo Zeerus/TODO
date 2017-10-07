@@ -49,7 +49,6 @@ class FullScreenDialog extends Component {
                 }
 
                 if(this.props.epilogueArgs !== undefined) args = args.concat(this.props.epilogueArgs);
-                console.log(args);
                 this.props.submitFunc.apply(this, args);
             } else {
                 if(this.props.epilogueArgs !== undefined) args = args.concat(this.props.epilogueArgs);
@@ -69,6 +68,13 @@ class FullScreenDialog extends Component {
         }
     }
 
+    closeDialogSplash(event) {
+        var splashDiv = document.getElementById('dialog-full-screen-splash');
+        if(event.target === splashDiv){
+            this.closeDialog();
+        }
+    }
+
     renderError(){
         var returnValue;
         if(typeof this.props.dialogError !== undefined && this.props.dialogError){
@@ -83,13 +89,20 @@ class FullScreenDialog extends Component {
 
     render(){
         return (
-            <div className="full-screen-splash">
+            <div
+                className="full-screen-splash"
+                id="dialog-full-screen-splash"
+                onClick={(e) => this.closeDialogSplash(e)}>
                 <div className="dialog-box-container">
                     <FullScreenDialogHeader
                         title={this.props.title}
                         closeFunc={(typeof this.props.closeFunc !== undefined && this.props.closeFunc) ? () => this.props.closeFunc() : () => this.closeDialog()}/>
-                    {(this.props.content !== undefined) ? this.props.content : ''}
-                    {this.renderError()}
+                    <div className="dialog-box-content-container">
+                        {(this.props.content !== undefined) ? this.props.content : ''}
+                    </div>
+                    <div className="dialog-error-container">
+                        {this.renderError()}
+                    </div>
                     <div className="dialog-box-submit-button-container">
                         <button
                             className="dialog-box-submit-button"

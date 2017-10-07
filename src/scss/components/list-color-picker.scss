@@ -80,12 +80,16 @@
 .list-color-wheel-controls-collapse-button{
     background: $primary-color;
     border: 1px solid #555;
-    border-bottom: none;
+    height: 30px;
     color: white;
     float: left;
     width: 100%;
     text-align: center;
     outline: none;
+
+    i{
+        font-size: 1.5em;
+    }
 }
 
 .list-entry-table-color{

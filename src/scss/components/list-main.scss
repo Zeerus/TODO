@@ -21,8 +21,10 @@
         font-family: $primary-font;
         float: left;
         margin: 0px;
-        font-size: 20px;
+        font-size: 1.5em;
         font-weight: 400;
+        max-width: 100%;
+        overflow: hidden;
     }
 }
 
@@ -38,8 +40,8 @@
 
 .list-header-button{
     color: white;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     float: left;
     background: transparent;
     border: none;
@@ -51,8 +53,9 @@
 
 .list-header-button-icons{
     position: relative;
-    left: -6px;
+    left: -2px;
     top: -1px;
+    font-size: 1.5em;
     display: inline-block;
     line-height: 20px;
     width: 20px;

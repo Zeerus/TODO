@@ -574,7 +574,7 @@ class TODOColorPicker extends Component {
                     <button
                         className="list-color-wheel-controls-collapse-button"
                         onClick={(listKey) => this.props.collapseWheelFunc(this.props.listKey)}>
-                        <i className={(this.props.colorWheelCollapsed? "fa fa-caret-down" : "fa fa-caret-up")}></i>
+                        <i className={(this.props.colorWheelCollapsed? "fa fa-caret-down " : "fa fa-caret-up ")}></i>
                     </button>
                 </div>
             </div>
@@ -601,7 +601,7 @@ class TODOListColorEntry extends Component {
                     <button
                         className="list-entry-delete-button color-delete-button"
                         onClick={(listKey, listEntry) => this.props.removeEntry(this.props.listKey, this.props.listEntryKey)}>
-                            <i className="fa fa-trash"></i>
+                            <i className="fa fa-trash "></i>
                     </button>
                 </td>
             </tr>
@@ -672,7 +672,7 @@ class TODOListEntry extends Component {
                     <button
                         className="list-entry-button-check"
                         onClick={(listKey, listEntryKey) => this.props.checkEntry(this.props.listKey, this.props.listEntryKey)}>
-                            <i className={this.props.checked ? "fa fa-check" : "list-entry-button-nocheck"}></i>
+                            <i className={this.props.checked ? "fa fa-check " : "list-entry-button-nocheck"}></i>
                     </button>
                 </td>
                 <td className="list-entry-text-container">
@@ -691,7 +691,7 @@ class TODOListEntry extends Component {
                     <button
                         className="list-entry-delete-button"
                         onClick={(listKey, listEntry) => this.props.removeEntry(this.props.listKey, this.props.listEntryKey)}>
-                            <i className="fa fa-trash"></i>
+                            <i className="fa fa-trash "></i>
                     </button>
                 </td>
             </tr>
@@ -709,29 +709,29 @@ class TODOListHeader extends Component {
     render() {
         return (
             <div className="list-header">
-                <h1>{this.props.listName}</h1>
                 <div className="list-header-button-container">
                     {this.props.listType === 'default' ? (
                             <button
                                 id={"list-header-add-entry-button" + this.props.listKey}
                                 className="list-header-button"
                                 onClick={(listKey) => this.props.addEntryFunc(this.props.listKey, '')}>
-                                    <i className="fa fa-plus list-header-button-icons"></i>
+                                    <i className="fa fa-plus  list-header-button-icons"></i>
                             </button>
                         ) : ''}
                     <button
                         id={"list-header-collapse-button" + this.props.listKey}
                         className="list-header-button"
                         onClick={(listKey) => this.props.collapseFunc(this.props.listKey)}>
-                            <i className={(this.props.collapsed? "fa fa-caret-right" : "fa fa-caret-down") + " list-header-button-icons"}></i>
+                            <i className={(this.props.collapsed? "fa fa-caret-right " : "fa fa-caret-down ") + " list-header-button-icons"}></i>
                     </button>
                     <button
                         id = {"list-header-delete-button" + this.props.listKey}
                         className="list-header-button"
                         onClick={(listKey) => this.props.deleteFunc(this.props.listKey)}>
-                            <i className="fa fa-times list-header-button-icons"></i>
+                            <i className="fa fa-times  list-header-button-icons"></i>
                     </button>
                 </div>
+                <h1>{this.props.listName}</h1>
             </div>
         );
     }
@@ -744,23 +744,7 @@ class TODOModule extends Component {
             currentKey: 1,
             uniqueListEntryID: 1,
             lists: {},
-            dialog: {
-                title : "Dialog Test",
-                content : (
-                    <div>
-                        <label>Test</label>
-                        <input type='text' id="dialog-text-0"></input>
-                    </div>
-                ),
-                submitFuncDataSpec: ['dialog-text-0'],
-                epilogueArgs : ["color"],
-                closeFunc: function(){
-                    this.setState((prevState, props) => {
-                        prevState['dialog'] = undefined;
-                    })
-                }.bind(this),
-                submitFunc: this.addList.bind(this)
-            }
+            dialog: undefined,
         }
     }
 
@@ -772,8 +756,9 @@ class TODOModule extends Component {
                     <div>
                         <label>List Name</label>
                         <input type='text' id='dialog-list-name'></input>
-                        <select id='dialog-list-type'>
-                            <option value='default' selected>TODO List</option>
+                        <label>List Type</label>
+                        <select id='dialog-list-type' defaultValue="default">
+                            <option value='default'>TODO List</option>
                             <option value='color'>Color Picker List</option>
                         </select>
                     </div>
@@ -786,7 +771,6 @@ class TODOModule extends Component {
                     })
                 }.bind(this),
                 submitFunc: function(listName, listType){
-                    console.log(listName + ", " + listType)
                     if(typeof listName !== undefined && listName){
                         this.addList(listName, listType)
                         this.setState((prevState, props) => {
