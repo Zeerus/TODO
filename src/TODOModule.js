@@ -160,9 +160,9 @@ class TODOColorPicker extends Component {
 
     updateHSL(){
         var newHSL = rgbToHSL(
-            this.state['currentColor']['r'],
-            this.state['currentColor']['g'],
-            this.state['currentColor']['b']
+            this.state['currentColor']['r'] * 1.0,
+            this.state['currentColor']['g'] * 1.0,
+            this.state['currentColor']['b'] * 1.0
         )
         this.setState((prevState, props) => {
             prevState['currentColor']['h'] = newHSL[0];
@@ -170,19 +170,13 @@ class TODOColorPicker extends Component {
             prevState['currentColor']['l'] = newHSL[2];
             return prevState;
         });
-        var hChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-h")
-        var sChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-s")
-        var lChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-l")
-        hChannel.value = this.state['currentColor']['h'];
-        sChannel.value = this.state['currentColor']['s'];
-        lChannel.value = this.state['currentColor']['l'];
     }
 
     updateRGB(){
         var newRGB = hslToRGB(
             this.state['currentColor']['h'] / 360,
-            this.state['currentColor']['s'],
-            this.state['currentColor']['l'],
+            this.state['currentColor']['s'] * 1.0,
+            this.state['currentColor']['l'] * 1.0,
         )
         this.setState((prevState, props) => {
             prevState['currentColor']['r'] = newRGB[0];
@@ -190,12 +184,24 @@ class TODOColorPicker extends Component {
             prevState['currentColor']['b'] = newRGB[2];
             return prevState;
         });
-        var hChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-r")
-        var sChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-g")
-        var lChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-b")
-        hChannel.value = this.state['currentColor']['r'];
-        sChannel.value = this.state['currentColor']['g'];
-        lChannel.value = this.state['currentColor']['b'];
+    }
+
+    updateRGBSliders(){
+        var rChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-r")
+        var gChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-g")
+        var bChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-b")
+        rChannel.value = this.state['currentColor']['r'];
+        gChannel.value = this.state['currentColor']['g'];
+        bChannel.value = this.state['currentColor']['b'];
+    }
+
+    updateHSLSliders(){
+        var hChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-h")
+        var sChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-s")
+        var lChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-l")
+        hChannel.value = this.state['currentColor']['h'];
+        sChannel.value = this.state['currentColor']['s'];
+        lChannel.value = this.state['currentColor']['l'];
     }
 
     handleChange(event, channel){
@@ -207,8 +213,8 @@ class TODOColorPicker extends Component {
                 this.setState((prevState, props) => {
                     prevState['currentColor'][channel] = activeSlider.value * 1.0;
                     return prevState;
-                });
-                this.updateHSL();
+                }, this.updateHSL);
+                this.updateHSLSliders();
             break;
             case 'h':
             case 's':
@@ -216,8 +222,8 @@ class TODOColorPicker extends Component {
                 this.setState((prevState, props) => {
                     prevState['currentColor'][channel] = activeSlider.value * 1.0;
                     return prevState;
-                });
-                this.updateRGB();
+                }, this.updateRGB);
+                this.updateRGBSliders();
             break;
             case 'a':
                 this.setState((prevState, props) => {
@@ -264,6 +270,58 @@ class TODOColorPicker extends Component {
         return RGBAString;
     }
 
+    manualEntrySubmitFunc(hexString, r, g, b, h, s, l) {
+        if (hexString[0] === '#'){
+            hexString = hexString.substring(1,7);
+        }
+        if(hexString && hexString.length === 6 && (/[0-9A-Fa-f]{6}/g).test(hexString)){
+            var processedHex = this.createRGBfromHex(hexString);
+            var newHSL = rgbToHSL(processedHex[0] * 1.0, processedHex[1] * 1.0, processedHex[2] * 1.0);
+            this.setState((prevState,props) => {
+                prevState['currentColor']['r'] = processedHex[0] * 1.0;
+                prevState['currentColor']['g'] = processedHex[1] * 1.0;
+                prevState['currentColor']['b'] = processedHex[2] * 1.0;
+                prevState['currentColor']['h'] = newHSL[0] * 1.0;
+                prevState['currentColor']['s'] = newHSL[1] * 1.0;
+                prevState['currentColor']['l'] = newHSL[2] * 1.0;
+                prevState['dialog'] = undefined;
+                return prevState;
+            });
+        }
+        else if(r && g && b){
+            var newHSL = rgbToHSL(r * 1.0, g * 1.0, b * 1.0);
+            this.setState((prevState,props) => {
+                prevState['currentColor']['r'] = r * 1.0;
+                prevState['currentColor']['g'] = g * 1.0;
+                prevState['currentColor']['b'] = b * 1.0;
+                prevState['currentColor']['h'] = newHSL[0] * 1.0;
+                prevState['currentColor']['s'] = newHSL[1] * 1.0;
+                prevState['currentColor']['l'] = newHSL[2] * 1.0;
+                prevState['dialog'] = undefined;
+                return prevState;
+            });
+        }
+        else if(h && s && l){
+            var newRGB = hslToRGB(h/360.0, s * 1.0, l * 1.0);
+            this.setState((prevState,props) => {
+                prevState['currentColor']['h'] = h * 1.0;
+                prevState['currentColor']['s'] = s * 1.0;
+                prevState['currentColor']['l'] = l * 1.0;
+                prevState['currentColor']['r'] = newRGB[0] * 1.0;
+                prevState['currentColor']['g'] = newRGB[1] * 1.0;
+                prevState['currentColor']['b'] = newRGB[2] * 1.0;
+                prevState['dialog'] = undefined;
+                return prevState;
+            });
+        }
+        else{
+            this.setState((prevState, props) => {
+                prevState['dialog']['dialogError'] = "Please fill one color type out fully";
+                return prevState;
+            });
+        }
+    }
+
     manualEntry(){
         this.setState((prevState, props) => {
             prevState['dialog'] = {
@@ -307,60 +365,15 @@ class TODOColorPicker extends Component {
                         return prevState;
                     })
                 }.bind(this),
-                submitFunc : function (hexString, r, g, b, h, s, l) {
-                    //Error check the inputs
-                    if(hexString && hexString.length === 6 && (/[0-9A-Fa-f]{6}/g).test(hexString)){
-                        var processedHex = this.createRGBfromHex(hexString);
-                        this.setState((prevState,props) => {
-                            prevState['currentColor']['r'] = processedHex[0];
-                            prevState['currentColor']['g'] = processedHex[1];
-                            prevState['currentColor']['b'] = processedHex[2];
-                            return prevState;
-                        })
-                        this.updateHSL;
-
-                        this.setState((prevState,props) => {
-                            prevState['dialog'] = undefined;
-                            return prevState;
-                        })
-                    }
-                    else if(r && g && b){
-                        this.setState((prevState,props) => {
-                            prevState['currentColor']['r'] = r;
-                            prevState['currentColor']['g'] = g;
-                            prevState['currentColor']['b'] = b;
-                            return prevState;
-                        })
-                        this.updateHSL;
-
-                        this.setState((prevState,props) => {
-                            prevState['dialog'] = undefined;
-                            return prevState;
-                        })
-                    }
-                    else if(h && s && l){
-                        this.setState((prevState,props) => {
-                            prevState['currentColor']['h'] = h;
-                            prevState['currentColor']['s'] = s;
-                            prevState['currentColor']['l'] = l;
-                            return prevState;
-                        })
-                        this.updateRGB;
-
-                        this.setState((prevState,props) => {
-                            prevState['dialog'] = undefined;
-                            return prevState;
-                        })
-                    }
-                    else{
-                        this.setState((prevState, props) => {
-                            prevState['dialog']['dialogError'] = "Please fill one color type out fully";
-                            return prevState;
-                        })
-                    }
+                submitFunc : function(hexString, r, g, b, h, s, l){
+                    this.manualEntrySubmitFunc(hexString, r, g, b, h, s, l);
+                    this.updateRGBSliders();
+                    this.updateHSLSliders();
                 }.bind(this),
             }
-            return prevState;
+            return {
+                'dialog': prevState['dialog'],
+            }
         });
     }
 
@@ -454,6 +467,8 @@ class TODOColorPicker extends Component {
                     });
                     this.updateHSL();
                     this.updateRGB();
+                    this.updateHSLSliders();
+                    this.updateRGBSliders();
                 }
             }
 
@@ -532,7 +547,7 @@ class TODOColorPicker extends Component {
                             max="255"
                             step="1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-r"}
-                            defaultValue={this.state['currentColor']['r']}
+                            value={this.state['currentColor']['r']}
                             onChange={(e, channel) => this.handleChange(e, 'r')}
                             onInput={(e, channel) => this.handleChange(e, 'r')}
                             className="list-color-wheel-sliders">
@@ -557,7 +572,7 @@ class TODOColorPicker extends Component {
                             max="255"
                             step="1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-g"}
-                            defaultValue={this.state['currentColor']['g']}
+                            value={this.state['currentColor']['g']}
                             onChange={(e, channel) => this.handleChange(e, 'g')}
                             onInput={(e, channel) => this.handleChange(e, 'g')}
                             className="list-color-wheel-sliders">
@@ -582,7 +597,7 @@ class TODOColorPicker extends Component {
                             max="255"
                             step="1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-b"}
-                            defaultValue={this.state['currentColor']['b']}
+                            value={this.state['currentColor']['b']}
                             onChange={(e, channel) => this.handleChange(e, 'b')}
                             onInput={(e, channel) => this.handleChange(e, 'b')}
                             className="list-color-wheel-sliders">
@@ -628,7 +643,7 @@ class TODOColorPicker extends Component {
                             max="359"
                             step="0.1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-h"}
-                            defaultValue={this.state['currentColor']['h']}
+                            value={this.state['currentColor']['h']}
                             onChange={(e, channel) => this.handleChange(e, 'h')}
                             onInput={(e, channel) => this.handleChange(e, 'h')}
                             className="list-color-wheel-sliders">
@@ -653,7 +668,7 @@ class TODOColorPicker extends Component {
                             max="1"
                             step="0.001"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-s"}
-                            defaultValue={this.state['currentColor']['s']}
+                            value={this.state['currentColor']['s']}
                             onChange={(e, channel) => this.handleChange(e, 's')}
                             onInput={(e, channel) => this.handleChange(e, 's')}
                             className="list-color-wheel-sliders">
@@ -698,7 +713,7 @@ class TODOColorPicker extends Component {
                             max="1"
                             step="0.001"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-l"}
-                            defaultValue={this.state['currentColor']['l']}
+                            value={this.state['currentColor']['l']}
                             onChange={(e, channel) => this.handleChange(e, 'l')}
                             onInput={(e, channel) => this.handleChange(e, 'l')}
                             className="list-color-wheel-sliders">
@@ -724,7 +739,7 @@ class TODOColorPicker extends Component {
                             max="1"
                             step="0.001"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-a"}
-                            defaultValue={this.state['currentColor']['a']}
+                            value={this.state['currentColor']['a']}
                             onChange={(e, channel) => this.handleChange(e, 'a')}
                             onInput={(e, channel) => this.handleChange(e, 'a')}
                             className="list-color-wheel-sliders">
