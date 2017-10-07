@@ -41,7 +41,21 @@
     height: 24px;
 }
 
-.list-color-wheel-controls-submit {
+.list-color-wheel-labels-container{
+    width: 100%;
+}
+
+.list-color-wheel-controls-buttons-container{
+    width: 100%;
+
+    &:after{
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+.list-color-wheel-controls-manual, .list-color-wheel-controls-submit{
     font-family: $primary-font;
     color: white;
     display: inline-block;
@@ -59,6 +73,10 @@
     }
 }
 
+.list-color-wheel-controls-manual{
+    float: left;
+}
+
 .list-color-wheel-labels-container{
     display: inline-block;
     float: left;
@@ -74,7 +92,7 @@
     height: 1em;
     margin: 5px 0;
     border: 1px solid black;
-    width: 100%;
+    width: calc(90% - 10px);
 }
 
 .list-color-wheel-controls-collapse-button{

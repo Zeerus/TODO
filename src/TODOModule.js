@@ -154,6 +154,7 @@ class TODOColorPicker extends Component {
                 'a': 1.0
             },
             'mouseDown': false,
+            'dialog': undefined
         }
     }
 
@@ -243,6 +244,17 @@ class TODOColorPicker extends Component {
         return hashCode;
     }
 
+    createRGBfromHex(hexString){
+        if(hexString && hexString[0] === '#'){
+            hexString = hexString.substring(1, hexString.length);
+        }
+        var r = parseInt(hexString.substring(0, 2), 16);
+        var g = parseInt(hexString.substring(2, 4), 16);
+        var b = parseInt(hexString.substring(4, 6), 16);
+
+        return [r, g, b];
+    }
+
     createRGBAString(){
         var RGBAString = "rgba("
         RGBAString += this.state['currentColor']['r'] + ', ';
@@ -252,12 +264,147 @@ class TODOColorPicker extends Component {
         return RGBAString;
     }
 
+    manualEntry(){
+        this.setState((prevState, props) => {
+            prevState['dialog'] = {
+                title : "Enter Color",
+                content : (
+                    <div>
+                        <div style={{textAlign: 'center'}}>
+                            <span><label>Hex String: #</label></span>
+                            <span><input type='text' id='dialog-text-hex-string' placeholder="FFFFFF"></input></span>
+                        </div>
+                        <div style={{textAlign: 'center'}}>
+                            <span><label>R</label></span>
+                            <span><input type='number' id='dialog-text-r' placeholder="255" min="0" max="255" style={{width: '50px', margin: '5px 0px'}}></input></span>
+                            <span><label>G</label></span>
+                            <span><input type='number' id='dialog-text-g' placeholder="255" min="0" max="255" style={{width: '50px', margin: '5px 0px'}}></input></span>
+                            <span><label>B</label></span>
+                            <span><input type='number' id='dialog-text-b' placeholder="255" min="0" max="255" style={{width: '50px', margin: '5px 0px'}}></input></span>
+                        </div>
+                        <div style={{textAlign: 'center'}}>
+                            <span><label>H</label></span>
+                            <span><input type='number' id='dialog-text-h' placeholder="360" min="0" max="360" style={{width: '50px', margin: '5px 0px'}}></input></span>
+                            <span><label>S</label></span>
+                            <span><input type='number' id='dialog-text-s' placeholder="1.0" min="0" max="1.0" step="0.1" style={{width: '50px', margin: '5px 0px'}}></input></span>
+                            <span><label>L</label></span>
+                            <span><input type='number' id='dialog-text-l' placeholder="1.0" min="0" max="1.0" step="0.1" style={{width: '50px', margin: '5px 0px'}}></input></span>
+                        </div>
+                    </div>
+                ),
+                submitFuncDataSpec : [
+                    'dialog-text-hex-string',
+                    'dialog-text-r',
+                    'dialog-text-g',
+                    'dialog-text-b',
+                    'dialog-text-h',
+                    'dialog-text-s',
+                    'dialog-text-l'
+                ],
+                closeFunc : function () {
+                    this.setState((prevState,props) => {
+                        prevState['dialog'] = undefined;
+                        return prevState;
+                    })
+                }.bind(this),
+                submitFunc : function (hexString, r, g, b, h, s, l) {
+                    //Error check the inputs
+                    if(hexString && hexString.length === 6 && (/[0-9A-Fa-f]{6}/g).test(hexString)){
+                        var processedHex = this.createRGBfromHex(hexString);
+                        this.setState((prevState,props) => {
+                            prevState['currentColor']['r'] = processedHex[0];
+                            prevState['currentColor']['g'] = processedHex[1];
+                            prevState['currentColor']['b'] = processedHex[2];
+                            return prevState;
+                        })
+                        this.updateHSL;
+
+                        this.setState((prevState,props) => {
+                            prevState['dialog'] = undefined;
+                            return prevState;
+                        })
+                    }
+                    else if(r && g && b){
+                        this.setState((prevState,props) => {
+                            prevState['currentColor']['r'] = r;
+                            prevState['currentColor']['g'] = g;
+                            prevState['currentColor']['b'] = b;
+                            return prevState;
+                        })
+                        this.updateHSL;
+
+                        this.setState((prevState,props) => {
+                            prevState['dialog'] = undefined;
+                            return prevState;
+                        })
+                    }
+                    else if(h && s && l){
+                        this.setState((prevState,props) => {
+                            prevState['currentColor']['h'] = h;
+                            prevState['currentColor']['s'] = s;
+                            prevState['currentColor']['l'] = l;
+                            return prevState;
+                        })
+                        this.updateRGB;
+
+                        this.setState((prevState,props) => {
+                            prevState['dialog'] = undefined;
+                            return prevState;
+                        })
+                    }
+                    else{
+                        this.setState((prevState, props) => {
+                            prevState['dialog']['dialogError'] = "Please fill one color type out fully";
+                            return prevState;
+                        })
+                    }
+                }.bind(this),
+            }
+            return prevState;
+        });
+    }
+
+    renderDialog(){
+        if (typeof this.state['dialog'] !== undefined && this.state['dialog']){
+            return (
+                <FullScreenDialog
+                    title={this.state['dialog']['title']}
+                    content={this.state['dialog']['content']}
+                    submitFuncDataSpec={this.state['dialog']['submitFuncDataSpec']}
+                    epilogueArgs={this.state['dialog']['epilogueArgs']}
+                    closeFunc={this.state['dialog']['closeFunc']}
+                    submitFunc={this.state['dialog']['submitFunc']}
+                    dialogError={(typeof this.state['dialog']['dialogError'] !== undefined && this.state['dialog']['dialogError']) ? this.state['dialog']['dialogError'] : undefined}
+                />
+            );
+        }
+    }
+
     componentDidMount(){
         //Obtain the canvas and context
         var canvas = document.getElementById("color-picker-canvas-" + this.props.listKey)
         canvas.width = "200";
         canvas.height = "200";
         var context = canvas.getContext('2d');
+
+        //Handle gesture removal for when canvas is touched.
+        document.body.addEventListener("touchstart", function (e) {
+          if (e.target === canvas) {
+            e.preventDefault();
+          }
+        }, false);
+        document.body.addEventListener("touchend", function (e) {
+          if (e.target === canvas) {
+            e.preventDefault();
+          }
+        }, false);
+        document.body.addEventListener("touchmove", function (e) {
+          if (e.target === canvas) {
+            e.preventDefault();
+          }
+        }, false);
+
+
         //Create blank 200x200 image and obtain handle for its data
         var colorWheel = context.createImageData(200, 200);
         var imageData = colorWheel.data;
@@ -280,11 +427,16 @@ class TODOColorPicker extends Component {
         //Put the image into the context.
         context.putImageData(colorWheel, 0, 0);
 
-        canvas.onmousemove = function(evt){
+        canvas.addEventListener("mousemove", function(evt){
             if(this.state.mouseDown){
                 var mouseX;
                 var mouseY;
-                if(evt.offsetX) {
+                if(evt.clientX){
+                    var rect = canvas.getBoundingClientRect();
+                    mouseX = evt.clientX - rect.left;
+                    mouseY = evt.clientY - rect.top;
+                }
+                else if(evt.offsetX) {
                     mouseX = evt.offsetX;
                     mouseY = evt.offsetY;
                 } else if(evt.layerX){
@@ -305,7 +457,7 @@ class TODOColorPicker extends Component {
                 }
             }
 
-        }.bind(this);
+        }.bind(this));
 
         canvas.addEventListener("mousedown", function(evt) {
             this.setState((prevState, props) => {
@@ -319,11 +471,38 @@ class TODOColorPicker extends Component {
                 return prevState;
             });
         }.bind(this));
+        canvas.addEventListener("touchstart", function(evt) {
+            this.setState((prevState, props) => {
+                prevState.mouseDown = true;
+                return prevState;
+            });
+            var touch = evt.touches[0];
+            var mouseEvent = new MouseEvent("mousemove", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }.bind(this));
+        canvas.addEventListener("touchend", function(evt) {
+            this.setState((prevState, props) => {
+                prevState.mouseDown = false;
+                return prevState;
+            });
+        }.bind(this));
+        canvas.addEventListener("touchmove", function(evt) {
+            var touch = evt.touches[0];
+            var mouseEvent = new MouseEvent("mousemove", {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        });
     }
 
     render() {
         return (
             <div className="list-color-picker-collapse-container">
+                {this.renderDialog()}
                 <div className={"list-color-picker-container" + (this.props.colorWheelCollapsed ? " collapsed" : "")}>
                     <div
                         className={"list-color-wheel-container" + (this.props.colorWheelCollapsed ? " collapsed" : "")}>
@@ -567,14 +746,21 @@ class TODOColorPicker extends Component {
                                 }}>
                             </label>
                         </div>
-                        <button
-                            className="list-color-wheel-controls-submit"
-                            onClick={(listKey, listKeyEntryContents) => this.props.addEntryFunc(this.props.listKey, {
-                                hexString: this.createHashCode(),
-                                rgbaString: this.createRGBAString()
-                            })}>
-                                Add Color
-                        </button>
+                        <div className="list-color-wheel-controls-buttons-container">
+                            <button
+                                className="list-color-wheel-controls-manual"
+                                onClick={() => this.manualEntry()}>
+                                    Manual Entry
+                            </button>
+                            <button
+                                className="list-color-wheel-controls-submit"
+                                onClick={(listKey, listKeyEntryContents) => this.props.addEntryFunc(this.props.listKey, {
+                                    hexString: this.createHashCode(),
+                                    rgbaString: this.createRGBAString()
+                                })}>
+                                    Add Color
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div>

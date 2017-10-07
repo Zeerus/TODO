@@ -76,6 +76,26 @@ body {
     padding-left: 10px; }
     .dialog-box-content-container input[type=text]:focus {
       outline: none; }
+  .dialog-box-content-container input[type=number] {
+    width: calc(100% - 10px);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    border-radius: 20px;
+    border: none;
+    background: white;
+    line-height: 40px;
+    padding-left: 10px; }
+    .dialog-box-content-container input[type=number]:focus {
+      outline: none; }
+  .dialog-box-content-container span label {
+    display: inline-block; }
+  .dialog-box-content-container span input[type=text] {
+    display: inline-block;
+    width: auto; }
+  .dialog-box-content-container span input[type=number] {
+    display: inline-block;
+    width: auto; }
   .dialog-box-content-container select {
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;

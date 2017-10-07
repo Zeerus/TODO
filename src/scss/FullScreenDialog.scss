@@ -51,6 +51,33 @@
         }
     }
 
+    input[type=number]{
+        width: calc(100% - 10px);
+        @include border-universal-radius(20px);
+        border: none;
+        background: white;
+        line-height: 40px;
+        padding-left: 10px;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+    span{
+        label {
+            display: inline-block;
+        }
+        input[type=text]{
+            display: inline-block;
+            width: auto;
+        }
+        input[type=number]{
+            display: inline-block;
+            width: auto;
+        }
+    }
+
     select{
         @include border-universal-radius(20px);
         line-height: 40px;

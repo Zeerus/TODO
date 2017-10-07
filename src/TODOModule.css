@@ -478,7 +478,17 @@ header {
   margin: 0;
   height: 24px; }
 
-.list-color-wheel-controls-submit {
+.list-color-wheel-labels-container {
+  width: 100%; }
+
+.list-color-wheel-controls-buttons-container {
+  width: 100%; }
+  .list-color-wheel-controls-buttons-container:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.list-color-wheel-controls-manual, .list-color-wheel-controls-submit {
   font-family: "Open Sans", sans-serif;
   color: white;
   display: inline-block;
@@ -489,9 +499,12 @@ header {
   background: transparent;
   outline: none;
   float: right; }
-  .list-color-wheel-controls-submit:hover {
+  .list-color-wheel-controls-manual:hover, .list-color-wheel-controls-submit:hover {
     color: #E88714;
     background: white; }
+
+.list-color-wheel-controls-manual {
+  float: left; }
 
 .list-color-wheel-labels-container {
   display: inline-block;
@@ -506,7 +519,7 @@ header {
   height: 1em;
   margin: 5px 0;
   border: 1px solid black;
-  width: 100%; }
+  width: calc(90% - 10px); }
 
 .list-color-wheel-controls-collapse-button {
   background: #E88714;
