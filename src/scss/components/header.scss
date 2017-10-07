@@ -56,6 +56,7 @@ header {
 }
 
 .header-center{
+    font-size: 1.25em;
     float: left;
     width: 45%;
     text-align: right;
@@ -111,6 +112,33 @@ header {
     &:hover{
         color: $primary-color;
         background: white;
+    }
+}
+
+.header-right{
+    line-height: 100px;
+    @media (min-width: 0px) and (max-width: 920px){
+        width: 90%;
+    }
+
+    .header-mobile-add{
+        background: $primary-color;
+        float: right;
+        border: 2px solid white;
+        border-radius: 10px;
+        height: 50px;
+        width: 50px;
+        margin: 25px 0;
+
+        &:active{
+            outline: none;
+            filter: brightness(80%);
+        }
+
+        i{
+            color: white;
+            font-size: 2em;
+        }
     }
 }
 

@@ -8,7 +8,24 @@ body {
   width: 80%;
   margin: 0 auto;
   padding: 30px 0px; }
+  .lists-area::after {
+    content: "";
+    display: table;
+    clear: both; }
 
 @media (min-width: 0px) and (max-width: 920px) {
   .lists-area {
     width: 95%; } }
+
+.footer-spacing {
+  height: 100px; }
+
+.visible-mobile-only {
+  display: none; }
+  @media (min-width: 0px) and (max-width: 920px) {
+    .visible-mobile-only {
+      display: inline-block; } }
+
+@media (min-width: 0px) and (max-width: 920px) {
+  .visible-non-mobile {
+    display: none; } }

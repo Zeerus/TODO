@@ -1,12 +1,26 @@
+.list-entry-container{
+    border: 1px solid #998C7A;
+    @include border-bottom-radius(20px);
+}
+
 .list-entry-table{
     background: #E8D4BA;
     width: 100%;
-    border: 1px solid #998C7A;
     border-collapse: collapse;
+    @include border-bottom-radius(20px);
+
+    tbody{
+        @include border-bottom-radius(20px);
+
+        :last-child{
+            border: none;
+        }
+    }
 }
 
-.list-entry-row td{
+.list-entry-row{
     border-bottom: 1px solid #998C7A;
+    @include border-bottom-radius(20px);
 }
 
 .list-entry-check-container{
@@ -15,8 +29,8 @@
 
 .list-entry-button-check{
     background: transparent;
-    border: 1px solid #5C5449;
-    border-radius: 30px;
+    border: 1px solid #5C5449 !important;
+    @include border-radius(30px);
     width:40px;
     height: 40px;
     outline: none;
@@ -59,7 +73,7 @@
     float: right;
     background: transparent;
     border: none;
-    border-radius: 30px;
+    @include border-radius(30px);
     text-align: center;
     margin-left: 5px;
     outline: none;

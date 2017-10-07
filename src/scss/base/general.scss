@@ -10,10 +10,64 @@ body {
     width: 80%;
     margin: 0 auto;
     padding: 30px 0px;
+
+    &::after{
+        content: "";
+        display: table;
+        clear: both;
+    }
 }
 
 @media (min-width: 0px) and (max-width: 920px){
     .lists-area {
         width: 95%;
     }
+}
+
+.footer-spacing{
+    height: 100px;
+}
+
+
+.visible-mobile-only{
+    display: none;
+
+    @media (min-width: 0px) and (max-width: 920px){
+        display: inline-block;
+    }
+}
+
+.visible-non-mobile{
+    @media (min-width: 0px) and (max-width: 920px){
+        display: none;
+    }
+}
+
+@mixin border-top-radius($radius){
+    -webkit-border-top-left-radius: $radius;
+    -moz-border-top-left-radius: $radius;
+    -ms-border-top-left-radius: $radius;
+    border-top-left-radius: $radius;
+    -webkit-border-top-right-radius: $radius;
+    -moz-border-top-right-radius: $radius;
+    -ms-border-top-right-radius: $radius;
+    border-top-right-radius: $radius;
+}
+
+@mixin border-bottom-radius($radius){
+    -webkit-border-bottom-left-radius: $radius;
+    -moz-border-bottom-left-radius: $radius;
+    -ms-border-bottom-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+    -webkit-border-bottom-right-radius: $radius;
+    -moz-border-bottom-right-radius: $radius;
+    -ms-border-bottom-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+
+@mixin border-radius($radius){
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
 }

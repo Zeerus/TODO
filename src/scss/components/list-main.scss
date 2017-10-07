@@ -7,7 +7,7 @@
     margin-bottom: 10px;
     transition: left 0.3s, top 0.3s;
     transition-timing-function: ease-in-out;
-
+    @include border-radius(20px);
 }
 
 .list-header{
@@ -16,6 +16,7 @@
     padding: 5px;
     border: 1px solid #777;
     background: $primary-color;
+    @include border-top-radius(20px);
 
     h1{
         font-family: $primary-font;
@@ -45,7 +46,7 @@
     float: left;
     background: transparent;
     border: none;
-    border-radius: 30px;
+    @include border-radius(30px);
     text-align: center;
     margin-left: 5px;
     outline: none;

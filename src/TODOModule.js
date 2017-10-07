@@ -47,7 +47,7 @@ class TODOHeader extends Component {
                         <i className="fa fa-address-book fa-3x header-logo"></i>
                         <h1 className="header-logo-text">TODO:</h1>
                     </div>
-                    <div className="header-center">
+                    <div className="header-center visible-non-mobile">
                         <div className="header-input-container">
                             <input
                                 className="header-text-field"
@@ -71,6 +71,13 @@ class TODOHeader extends Component {
                                     Advanced List
                             </a>
                         </div>
+                    </div>
+                    <div className="header-right visible-mobile-only">
+                        <button
+                            className="header-mobile-add"
+                            onClick={() => this.advancedDialog()}>
+                                <i className="fa fa-plus"></i>
+                        </button>
                     </div>
                 </div>
             </header>
@@ -1013,7 +1020,7 @@ class TODOModule extends Component {
                                 deleteFunc={(listKey) => this.removeList(listKey)}
                             />
                             <div
-                                className={((this.state.lists[key]['collapsed']) ? "collapsed" : "")}>
+                                className={((this.state.lists[key]['collapsed']) ? "list-entry-container collapsed" : "list-entry-container")}>
                                     {this.state.lists[key]['type'] === 'color' ? (
                                     <TODOColorPicker
                                         listKey={this.state.lists[key]['id']}
@@ -1048,6 +1055,8 @@ class TODOModule extends Component {
                         transitionLeaveTimeout={300}>
                             {this.renderLists()}
                     </CSSTransitionGroup>
+                </div>
+                <div className="footer-spacing">
                 </div>
             </div>
         );

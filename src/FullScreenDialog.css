@@ -8,10 +8,27 @@ body {
   width: 80%;
   margin: 0 auto;
   padding: 30px 0px; }
+  .lists-area::after {
+    content: "";
+    display: table;
+    clear: both; }
 
 @media (min-width: 0px) and (max-width: 920px) {
   .lists-area {
     width: 95%; } }
+
+.footer-spacing {
+  height: 100px; }
+
+.visible-mobile-only {
+  display: none; }
+  @media (min-width: 0px) and (max-width: 920px) {
+    .visible-mobile-only {
+      display: inline-block; } }
+
+@media (min-width: 0px) and (max-width: 920px) {
+  .visible-non-mobile {
+    display: none; } }
 
 .full-screen-splash {
   background: rgba(0, 0, 0, 0.75);
@@ -28,7 +45,11 @@ body {
   width: 33.33%;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  border-radius: 20px; }
   @media (min-width: 0px) and (max-width: 920px) {
     .dialog-box-container {
       width: 90%; } }
@@ -45,17 +66,23 @@ body {
     display: block; }
   .dialog-box-content-container input[type=text] {
     width: calc(100% - 10px);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
     border-radius: 20px;
     border: none;
     background: white;
-    height: 25px;
-    line-height: 25px;
+    line-height: 40px;
     padding-left: 10px; }
+    .dialog-box-content-container input[type=text]:focus {
+      outline: none; }
   .dialog-box-content-container select {
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
     border-radius: 20px;
-    height: 25px;
+    line-height: 40px;
+    height: 44px;
     width: 100%;
     padding-left: 10px; }
     .dialog-box-content-container select:focus {
@@ -74,7 +101,15 @@ body {
   color: white;
   padding: 5px;
   border: 1px solid #777;
-  background: #E88714; }
+  background: #E88714;
+  -webkit-border-top-left-radius: 20px;
+  -moz-border-top-left-radius: 20px;
+  -ms-border-top-left-radius: 20px;
+  border-top-left-radius: 20px;
+  -webkit-border-top-right-radius: 20px;
+  -moz-border-top-right-radius: 20px;
+  -ms-border-top-right-radius: 20px;
+  border-top-right-radius: 20px; }
   .dialog-box-header-container h1 {
     font-family: "Open Sans", sans-serif;
     float: left;
@@ -97,6 +132,9 @@ body {
   float: left;
   background: transparent;
   border: none;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
   border-radius: 30px;
   text-align: center;
   margin-left: 5px;
@@ -138,6 +176,9 @@ body {
   display: inline-block;
   margin-left: 5px;
   border: 1px solid white;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
   border-radius: 30px;
   line-height: 40px;
   background: transparent;
