@@ -519,21 +519,55 @@ header {
   outline: none; }
   .list-color-wheel-controls-collapse-button i {
     font-size: 1.5em; }
+  .list-color-wheel-controls-collapse-button.isCollapsed {
+    -webkit-border-bottom-left-radius: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -ms-border-bottom-left-radius: 20px;
+    -ms-border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px; }
 
 .list-entry-table-color {
   background: #777;
   width: 100%;
   border: 1px solid #606060;
   border-top: 2px solid #606060;
-  border-collapse: collapse; }
+  -webkit-border-bottom-left-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-left-radius: 20px;
+  -ms-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px; }
+  .list-entry-table-color tbody {
+    -webkit-border-bottom-left-radius: 20px;
+    -webkit-border-bottom-right-radius: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -ms-border-bottom-left-radius: 20px;
+    -ms-border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px; }
 
 .list-color-entry-row {
   height: 2em;
-  background: #777;
+  background: transparent;
   color: white;
-  border-bottom: 2px solid #606060; }
+  border-bottom: 2px solid #606060;
+  -webkit-border-bottom-left-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-left-radius: 20px;
+  -ms-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px; }
 
 .list-color-entry-color {
+  background: transparent;
   height: 2em;
   width: 30%;
   border: 1px solid black; }
@@ -543,5 +577,20 @@ header {
   display: block;
   padding: 2px; }
 
+.list-entry-button-container {
+  background: transparent; }
+
 .color-delete-button {
   color: white; }
+
+.list-entry-table-color tbody tr:last-child td:first-child {
+  -webkit-border-bottom-left-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -ms-border-bottom-left-radius: 20px;
+  border-bottom-left-radius: 20px; }
+
+.list-entry-table-color tbody tr:last-child td:last-child {
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-right-radius: 20px;
+  border-bottom-right-radius: 20px; }

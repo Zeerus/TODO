@@ -65,6 +65,20 @@ body {
     border-bottom-right-radius: $radius;
 }
 
+@mixin border-only-bottom-left-radius($radius){
+    -webkit-border-bottom-left-radius: $radius;
+    -moz-border-radius-bottomleft: $radius;
+    -ms-border-bottom-left-radius: $radius;
+    border-bottom-left-radius: $radius;
+}
+
+@mixin border-only-bottom-right-radius($radius){
+    -webkit-border-bottom-right-radius: $radius;
+    -moz-border-radius-bottomright: $radius;
+    -ms-border-bottom-right-radius: $radius;
+    border-bottom-right-radius: $radius;
+}
+
 @mixin border-universal-radius($radius){
     -webkit-border-radius: $radius;
     -moz-border-radius: $radius;

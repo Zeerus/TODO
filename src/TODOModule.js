@@ -579,7 +579,7 @@ class TODOColorPicker extends Component {
                 </div>
                 <div>
                     <button
-                        className="list-color-wheel-controls-collapse-button"
+                        className={"list-color-wheel-controls-collapse-button" + (this.props.colorWheelCollapsed ? " isCollapsed" : "")}
                         onClick={(listKey) => this.props.collapseWheelFunc(this.props.listKey)}>
                         <i className={(this.props.colorWheelCollapsed? "fa fa-caret-down " : "fa fa-caret-up ")}></i>
                     </button>
