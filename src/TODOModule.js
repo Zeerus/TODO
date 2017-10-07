@@ -34,7 +34,9 @@ class TODOHeader extends Component {
     }
 
     advancedDialog(){
-
+        if(typeof this.props.advancedCreate !== undefined && this.props.advancedCreate){
+            this.props.advancedCreate();
+        }
     }
 
     render() {
@@ -762,6 +764,46 @@ class TODOModule extends Component {
         }
     }
 
+    createListAddDialog(){
+        this.setState((prevState, props) => {
+            prevState['dialog'] = {
+                title: "Create List",
+                content: (
+                    <div>
+                        <label>List Name</label>
+                        <input type='text' id='dialog-list-name'></input>
+                        <select id='dialog-list-type'>
+                            <option value='default' selected>TODO List</option>
+                            <option value='color'>Color Picker List</option>
+                        </select>
+                    </div>
+                ),
+                submitFuncDataSpec: ['dialog-list-name', 'dialog-list-type'],
+                closeFunc: function(){
+                    this.setState((prevState, props) => {
+                        prevState['dialog'] = undefined;
+                        return prevState;
+                    })
+                }.bind(this),
+                submitFunc: function(listName, listType){
+                    console.log(listName + ", " + listType)
+                    if(typeof listName !== undefined && listName){
+                        this.addList(listName, listType)
+                        this.setState((prevState, props) => {
+                            prevState['dialog'] = undefined;
+                            return prevState;
+                        })
+                    } else {
+                        this.setState((prevState, props) => {
+                            prevState['dialog']['dialogError'] = "Please enter a list name";
+                            return prevState;
+                        })
+                    }
+                }.bind(this)
+            }
+        })
+    }
+
     renderDialog(){
         if(typeof this.state['dialog'] !== undefined && this.state['dialog']){
             return (
@@ -771,7 +813,9 @@ class TODOModule extends Component {
                     submitFuncDataSpec={this.state['dialog']['submitFuncDataSpec']}
                     epilogueArgs={this.state['dialog']['epilogueArgs']}
                     closeFunc={this.state['dialog']['closeFunc']}
-                    submitFunc={this.state['dialog']['submitFunc']}/>
+                    submitFunc={this.state['dialog']['submitFunc']}
+                    dialogError={(typeof this.state['dialog']['dialogError'] !== undefined && this.state['dialog']['dialogError']) ? this.state['dialog']['dialogError'] : undefined}
+                />
             )
         }
     }
@@ -1011,6 +1055,7 @@ class TODOModule extends Component {
                 <div className="header-spacer"></div>
                 <TODOHeader
                     onClick={(listName) => this.addList(listName)}
+                    advancedCreate={() => this.createListAddDialog()}
                 />
                 <div className="lists-area">
                     <CSSTransitionGroup

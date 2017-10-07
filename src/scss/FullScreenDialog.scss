@@ -28,27 +28,6 @@
     }
 }
 
-.dialog-box-submit-button-container{
-    float: right;
-}
-
-.dialog-box-submit-button {
-    font-family: $primary-font;
-    color: white;
-    display: inline-block;
-    margin-left: 5px;
-    border: 1px solid white;
-    border-radius: 30px;
-    line-height: 40px;
-    background: transparent;
-    outline: none;
-
-    &:hover{
-        color: $primary-color;
-        background: white;
-    }
-}
-
 .dialog-box-header-container{
     font-family: $primary-font;
     color: white;
@@ -101,4 +80,25 @@
 
 .dialog-box-header-close-button:active{
     background: #A6610F;
+}
+
+.dialog-box-submit-button-container{
+    float: right;
+}
+
+.dialog-box-submit-button {
+    font-family: $primary-font;
+    color: white;
+    display: inline-block;
+    margin-left: 5px;
+    border: 1px solid white;
+    border-radius: 30px;
+    line-height: 40px;
+    background: transparent;
+    outline: none;
+
+    &:hover{
+        color: $primary-color;
+        background: white;
+    }
 }

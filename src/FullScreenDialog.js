@@ -47,15 +47,17 @@ class FullScreenDialog extends Component {
                         console.error("Problem with data spec, or form content, in dialog submitData() function");
                     }
                 }
-                
+
                 if(this.props.epilogueArgs !== undefined) args = args.concat(this.props.epilogueArgs);
+                console.log(args);
                 this.props.submitFunc.apply(this, args);
             } else {
                 if(this.props.epilogueArgs !== undefined) args = args.concat(this.props.epilogueArgs);
                 this.props.submitFunc.apply(this, args);
             }
+        } else {
+            this.closeDialog();
         }
-        this.closeDialog();
     }
 
     closeDialog() {
@@ -67,6 +69,18 @@ class FullScreenDialog extends Component {
         }
     }
 
+    renderError(){
+        var returnValue;
+        if(typeof this.props.dialogError !== undefined && this.props.dialogError){
+            returnValue = (
+                <div>
+                    <label className="dialog-error">{this.props.dialogError}</label>
+                </div>
+            )
+        }
+        return returnValue;
+    }
+
     render(){
         return (
             <div className="full-screen-splash">
@@ -75,10 +89,12 @@ class FullScreenDialog extends Component {
                         title={this.props.title}
                         closeFunc={(typeof this.props.closeFunc !== undefined && this.props.closeFunc) ? () => this.props.closeFunc() : () => this.closeDialog()}/>
                     {(this.props.content !== undefined) ? this.props.content : ''}
+                    {this.renderError()}
                     <div className="dialog-box-submit-button-container">
                         <button
                             className="dialog-box-submit-button"
                             onClick={() => this.submitData()}>
+                                Submit
                         </button>
                     </div>
                 </div>
