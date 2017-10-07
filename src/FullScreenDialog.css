@@ -103,12 +103,12 @@ body {
   border: 1px solid #777;
   background: #E88714;
   -webkit-border-top-left-radius: 20px;
-  -moz-border-top-left-radius: 20px;
-  -ms-border-top-left-radius: 20px;
-  border-top-left-radius: 20px;
   -webkit-border-top-right-radius: 20px;
-  -moz-border-top-right-radius: 20px;
+  -moz-border-radius-topleft: 20px;
+  -moz-border-radius-topright: 20px;
+  -ms-border-top-left-radius: 20px;
   -ms-border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   border-top-right-radius: 20px; }
   .dialog-box-header-container h1 {
     font-family: "Open Sans", sans-serif;

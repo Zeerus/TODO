@@ -242,12 +242,12 @@ header {
   border: 1px solid #777;
   background: #E88714;
   -webkit-border-top-left-radius: 20px;
-  -moz-border-top-left-radius: 20px;
-  -ms-border-top-left-radius: 20px;
-  border-top-left-radius: 20px;
   -webkit-border-top-right-radius: 20px;
-  -moz-border-top-right-radius: 20px;
+  -moz-border-radius-topleft: 20px;
+  -moz-border-radius-topright: 20px;
+  -ms-border-top-left-radius: 20px;
   -ms-border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   border-top-right-radius: 20px; }
   .list-header h1 {
     font-family: "Open Sans", sans-serif;
@@ -341,12 +341,12 @@ header {
 .list-entry-container {
   border: 1px solid #998C7A;
   -webkit-border-bottom-left-radius: 20px;
-  -moz-border-bottom-left-radius: 20px;
-  -ms-border-bottom-left-radius: 20px;
-  border-bottom-left-radius: 20px;
   -webkit-border-bottom-right-radius: 20px;
-  -moz-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-left-radius: 20px;
   -ms-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px; }
 
 .list-entry-table {
@@ -354,21 +354,21 @@ header {
   width: 100%;
   border-collapse: collapse;
   -webkit-border-bottom-left-radius: 20px;
-  -moz-border-bottom-left-radius: 20px;
-  -ms-border-bottom-left-radius: 20px;
-  border-bottom-left-radius: 20px;
   -webkit-border-bottom-right-radius: 20px;
-  -moz-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-left-radius: 20px;
   -ms-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px; }
   .list-entry-table tbody {
     -webkit-border-bottom-left-radius: 20px;
-    -moz-border-bottom-left-radius: 20px;
-    -ms-border-bottom-left-radius: 20px;
-    border-bottom-left-radius: 20px;
     -webkit-border-bottom-right-radius: 20px;
-    -moz-border-bottom-right-radius: 20px;
+    -moz-border-radius-bottomleft: 20px;
+    -moz-border-radius-bottomright: 20px;
+    -ms-border-bottom-left-radius: 20px;
     -ms-border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px; }
     .list-entry-table tbody :last-child {
       border: none; }
@@ -376,12 +376,12 @@ header {
 .list-entry-row {
   border-bottom: 1px solid #998C7A;
   -webkit-border-bottom-left-radius: 20px;
-  -moz-border-bottom-left-radius: 20px;
-  -ms-border-bottom-left-radius: 20px;
-  border-bottom-left-radius: 20px;
   -webkit-border-bottom-right-radius: 20px;
-  -moz-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-left-radius: 20px;
   -ms-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px; }
 
 .list-entry-check-container {
