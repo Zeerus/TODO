@@ -33,6 +33,10 @@ class TODOHeader extends Component {
         document.getElementById("header-text-field").focus();
     }
 
+    advancedDialog(){
+
+    }
+
     render() {
         return (
             <header>
@@ -42,20 +46,29 @@ class TODOHeader extends Component {
                         <h1 className="header-logo-text">TODO:</h1>
                     </div>
                     <div className="header-center">
-                        <input
-                            className="header-text-field"
-                            id="header-text-field"
-                            onChange={(e) => this.handleChange(e)}
-                            onKeyDown={(e) => this.handleEnterKey(e)}
-                            type="text"
-                            placeholder="Enter a list name">
-                        </input>
-                        <button
-                            className="header-button"
-                            id="header-button"
-                            onClick={(value) => this.handleClick(this.state.value)}>
-                                Submit
-                        </button>
+                        <div className="header-input-container">
+                            <input
+                                className="header-text-field"
+                                id="header-text-field"
+                                onChange={(e) => this.handleChange(e)}
+                                onKeyDown={(e) => this.handleEnterKey(e)}
+                                type="text"
+                                placeholder="Enter a list name">
+                            </input>
+                            <button
+                                className="header-button"
+                                id="header-button"
+                                onClick={(value) => this.handleClick(this.state.value)}>
+                                    Submit
+                            </button>
+                        </div>
+                        <div className="header-advanced-container">
+                            <a
+                                className="advanced-list-button"
+                                onClick={() => this.advancedDialog()}>
+                                    Advanced List
+                            </a>
+                        </div>
                     </div>
                 </div>
             </header>

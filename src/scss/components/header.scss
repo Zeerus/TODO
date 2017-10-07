@@ -48,6 +48,7 @@ header {
 }
 .header-logo-text{
     font-family: "Space Mono", sans-serif;
+    line-height: 100px;
     color: white;
     float: left;
     display: inline-block;
@@ -58,6 +59,30 @@ header {
     float: left;
     width: 45%;
     text-align: right;
+}
+
+.header-input-container{
+    line-height: 75px;
+}
+
+.header-advanced-container{
+    line-height: 25px;
+    text-align: center;
+}
+
+.advanced-list-button{
+    position: relative;
+    top: -8px;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 5px;
+    color:white;
+
+    &:hover{
+        border-color: $primary-color;
+        color: $primary-color;
+        background: white;
+    }
 }
 
 .header-text-field {
