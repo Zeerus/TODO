@@ -1,8 +1,8 @@
 This is my TODO app, aptly named TODO:<br><br>
 
-Currently planned features in no particular order:<br>
-    - Advanced list adding (e.g. type, color coding, etc).<br>
-    - Touch screen compatibility for color picker.<br>
+This branch is for work in object persistence.<br>
+
+Currently planned features in no particular order:<br><br>
     - Client side object persistence.<br>
     - User authentication/registration.<br>
     - Backend data storage.<br>
