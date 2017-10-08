@@ -472,6 +472,10 @@ header {
   margin: 10px 5%;
   text-align: center;
   background: white; }
+  @media (min-width: 0px) and (max-width: 920px) {
+    .list-color-wheel-slider-container {
+      width: 80%;
+      margin: 10px auto; } }
 
 .list-color-wheel-sliders {
   width: 90%;

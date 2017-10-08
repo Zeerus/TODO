@@ -144,92 +144,81 @@ class TODOColorPicker extends Component {
     constructor(){
         super();
         this.state = {
-            'currentColor': {
-                'r': 255,
-                'g': 255,
-                'b': 255,
-                'h': 0,
-                's': 0.0,
-                'l': 1.0,
-                'a': 1.0
-            },
             'mouseDown': false,
             'dialog': undefined
         }
     }
 
-    updateHSL(){
-        var newHSL = rgbToHSL(
-            this.state['currentColor']['r'] * 1.0,
-            this.state['currentColor']['g'] * 1.0,
-            this.state['currentColor']['b'] * 1.0
-        )
-        this.setState((prevState, props) => {
-            prevState['currentColor']['h'] = newHSL[0];
-            prevState['currentColor']['s'] = newHSL[1];
-            prevState['currentColor']['l'] = newHSL[2];
-            return prevState;
-        });
-    }
-
-    updateRGB(){
-        var newRGB = hslToRGB(
-            this.state['currentColor']['h'] / 360,
-            this.state['currentColor']['s'] * 1.0,
-            this.state['currentColor']['l'] * 1.0,
-        )
-        this.setState((prevState, props) => {
-            prevState['currentColor']['r'] = newRGB[0];
-            prevState['currentColor']['g'] = newRGB[1];
-            prevState['currentColor']['b'] = newRGB[2];
-            return prevState;
-        });
-    }
-
-    updateRGBSliders(){
-        var rChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-r")
-        var gChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-g")
-        var bChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-b")
-        rChannel.value = this.state['currentColor']['r'];
-        gChannel.value = this.state['currentColor']['g'];
-        bChannel.value = this.state['currentColor']['b'];
-    }
-
-    updateHSLSliders(){
-        var hChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-h")
-        var sChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-s")
-        var lChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-l")
-        hChannel.value = this.state['currentColor']['h'];
-        sChannel.value = this.state['currentColor']['s'];
-        lChannel.value = this.state['currentColor']['l'];
-    }
+    // updateHSL(){
+    //     var newHSL = rgbToHSL(
+    //         this.state['currentColor']['r'] * 1.0,
+    //         this.state['currentColor']['g'] * 1.0,
+    //         this.state['currentColor']['b'] * 1.0
+    //     )
+    //     this.setState((prevState, props) => {
+    //         prevState['currentColor']['h'] = newHSL[0];
+    //         prevState['currentColor']['s'] = newHSL[1];
+    //         prevState['currentColor']['l'] = newHSL[2];
+    //         return prevState;
+    //     });
+    // }
+    //
+    // updateRGB(){
+    //     var newRGB = hslToRGB(
+    //         this.state['currentColor']['h'] / 360,
+    //         this.state['currentColor']['s'] * 1.0,
+    //         this.state['currentColor']['l'] * 1.0,
+    //     )
+    //     this.setState((prevState, props) => {
+    //         prevState['currentColor']['r'] = newRGB[0];
+    //         prevState['currentColor']['g'] = newRGB[1];
+    //         prevState['currentColor']['b'] = newRGB[2];
+    //         return prevState;
+    //     });
+    // }
+    //
+    // updateRGBSliders(){
+    //     var rChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-r")
+    //     var gChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-g")
+    //     var bChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-b")
+    //     rChannel.value = this.state['currentColor']['r'];
+    //     gChannel.value = this.state['currentColor']['g'];
+    //     bChannel.value = this.state['currentColor']['b'];
+    // }
+    //
+    // updateHSLSliders(){
+    //     var hChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-h")
+    //     var sChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-s")
+    //     var lChannel = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-l")
+    //     hChannel.value = this.state['currentColor']['h'];
+    //     sChannel.value = this.state['currentColor']['s'];
+    //     lChannel.value = this.state['currentColor']['l'];
+    // }
 
     handleChange(event, channel){
         var activeSlider = document.getElementById("list-" + this.props.listKey + "-color-wheel-slider-" + channel)
+        var color;
+        var sendColor;
+
         switch(channel){
             case 'r':
             case 'g':
             case 'b':
-                this.setState((prevState, props) => {
-                    prevState['currentColor'][channel] = activeSlider.value * 1.0;
-                    return prevState;
-                }, this.updateHSL);
-                this.updateHSLSliders();
+                color = this.props.currentColor;
+                color[channel] = activeSlider.value * 1.0;
+                sendColor = [color['r'], color['g'], color['b']];
+                this.props.modifyColorWheelColor(this.props.listKey, 'rgb', sendColor);
             break;
             case 'h':
             case 's':
             case 'l':
-                this.setState((prevState, props) => {
-                    prevState['currentColor'][channel] = activeSlider.value * 1.0;
-                    return prevState;
-                }, this.updateRGB);
-                this.updateRGBSliders();
+                color = this.props.currentColor;
+                color[channel] = activeSlider.value * 1.0;
+                sendColor = [color['h'], color['s'], color['l']];
+                this.props.modifyColorWheelColor(this.props.listKey, 'hsl', sendColor);
             break;
             case 'a':
-                this.setState((prevState, props) => {
-                    prevState['currentColor'][channel] = activeSlider.value * 1.0;
-                    return prevState;
-                });
+                this.props.modifyColorWheelColor(this.props.listKey, 'a', activeSlider.value * 1.0);
             break;
             default:
             break;
@@ -241,7 +230,7 @@ class TODOColorPicker extends Component {
         var hashCode = '#';
         var channels = ['r','g','b']
         for (var i = 0; i < channels.length; i++){
-            var contents = this.state['currentColor'][channels[i]].toString(16).toUpperCase();
+            var contents = this.props.currentColor[channels[i]].toString(16).toUpperCase();
             if(contents.length < 2){
                 contents = "0" + contents;
             }
@@ -263,10 +252,10 @@ class TODOColorPicker extends Component {
 
     createRGBAString(){
         var RGBAString = "rgba("
-        RGBAString += this.state['currentColor']['r'] + ', ';
-        RGBAString += this.state['currentColor']['g'] + ', ';
-        RGBAString += this.state['currentColor']['b'] + ', ';
-        RGBAString += this.state['currentColor']['a'] + ')';
+        RGBAString += this.props.currentColor['r'] + ', ';
+        RGBAString += this.props.currentColor['g'] + ', ';
+        RGBAString += this.props.currentColor['b'] + ', ';
+        RGBAString += this.props.currentColor['a'] + ')';
         return RGBAString;
     }
 
@@ -276,40 +265,22 @@ class TODOColorPicker extends Component {
         }
         if(hexString && hexString.length === 6 && (/[0-9A-Fa-f]{6}/g).test(hexString)){
             var processedHex = this.createRGBfromHex(hexString);
-            var newHSL = rgbToHSL(processedHex[0] * 1.0, processedHex[1] * 1.0, processedHex[2] * 1.0);
-            this.setState((prevState,props) => {
-                prevState['currentColor']['r'] = processedHex[0] * 1.0;
-                prevState['currentColor']['g'] = processedHex[1] * 1.0;
-                prevState['currentColor']['b'] = processedHex[2] * 1.0;
-                prevState['currentColor']['h'] = newHSL[0] * 1.0;
-                prevState['currentColor']['s'] = newHSL[1] * 1.0;
-                prevState['currentColor']['l'] = newHSL[2] * 1.0;
+            this.props.modifyColorWheelColor(this.props.listKey, 'rgb', processedHex);
+            this.setState((prevState, props) => {
                 prevState['dialog'] = undefined;
                 return prevState;
             });
         }
         else if(r && g && b){
-            var newHSL = rgbToHSL(r * 1.0, g * 1.0, b * 1.0);
-            this.setState((prevState,props) => {
-                prevState['currentColor']['r'] = r * 1.0;
-                prevState['currentColor']['g'] = g * 1.0;
-                prevState['currentColor']['b'] = b * 1.0;
-                prevState['currentColor']['h'] = newHSL[0] * 1.0;
-                prevState['currentColor']['s'] = newHSL[1] * 1.0;
-                prevState['currentColor']['l'] = newHSL[2] * 1.0;
+            this.props.modifyColorWheelColor(this.props.listKey, 'rgb', [r, g, b]);
+            this.setState((prevState, props) => {
                 prevState['dialog'] = undefined;
                 return prevState;
             });
         }
         else if(h && s && l){
-            var newRGB = hslToRGB(h/360.0, s * 1.0, l * 1.0);
-            this.setState((prevState,props) => {
-                prevState['currentColor']['h'] = h * 1.0;
-                prevState['currentColor']['s'] = s * 1.0;
-                prevState['currentColor']['l'] = l * 1.0;
-                prevState['currentColor']['r'] = newRGB[0] * 1.0;
-                prevState['currentColor']['g'] = newRGB[1] * 1.0;
-                prevState['currentColor']['b'] = newRGB[2] * 1.0;
+            this.props.modifyColorWheelColor(this.props.listKey, 'hsl', [h, s, l]);
+            this.setState((prevState, props) => {
                 prevState['dialog'] = undefined;
                 return prevState;
             });
@@ -367,8 +338,6 @@ class TODOColorPicker extends Component {
                 }.bind(this),
                 submitFunc : function(hexString, r, g, b, h, s, l){
                     this.manualEntrySubmitFunc(hexString, r, g, b, h, s, l);
-                    this.updateRGBSliders();
-                    this.updateHSLSliders();
                 }.bind(this),
             }
             return {
@@ -401,21 +370,33 @@ class TODOColorPicker extends Component {
         var context = canvas.getContext('2d');
 
         //Handle gesture removal for when canvas is touched.
+        var passiveSupported = false;
+
+        try {
+            var options = Object.defineProperty({}, "passive", {
+            get: function() {
+                    passiveSupported = true;
+                }
+            });
+
+            window.addEventListener("test", null, options);
+        } catch(err) {}
+
         document.body.addEventListener("touchstart", function (e) {
           if (e.target === canvas) {
             e.preventDefault();
           }
-        }, false);
+      }, passiveSupported ? {'passive' : false} : false);
         document.body.addEventListener("touchend", function (e) {
           if (e.target === canvas) {
             e.preventDefault();
           }
-        }, false);
+      }, passiveSupported ? {'passive' : false} : false);
         document.body.addEventListener("touchmove", function (e) {
           if (e.target === canvas) {
             e.preventDefault();
           }
-        }, false);
+        }, passiveSupported ? {'passive' : false} : false);
 
 
         //Create blank 200x200 image and obtain handle for its data
@@ -460,15 +441,7 @@ class TODOColorPicker extends Component {
                 var color = context.getImageData(mouseX, mouseY, 1, 1).data;
 
                 if(color[3] !== 0){
-                    this.setState((prevState, props) => {
-                        prevState['currentColor']['r'] = color[0];
-                        prevState['currentColor']['g'] = color[1];
-                        prevState['currentColor']['b'] = color[2];
-                    });
-                    this.updateHSL();
-                    this.updateRGB();
-                    this.updateHSLSliders();
-                    this.updateRGBSliders();
+                    this.props.modifyColorWheelColor(this.props.listKey, 'rgb', color);
                 }
             }
 
@@ -533,12 +506,12 @@ class TODOColorPicker extends Component {
                         style={{
                             background: "linear-gradient(to right, rgba(" +
                                                               0 + "," +
-                                this.state['currentColor']['g'] + "," +
-                                this.state['currentColor']['b'] + "," +
+                                   this.props.currentColor['g'] + "," +
+                                   this.props.currentColor['b'] + "," +
                                                             1.0 + "), rgba(" +
                                                             255 + "," +
-                                this.state['currentColor']['g'] + "," +
-                                this.state['currentColor']['b'] + "," +
+                                   this.props.currentColor['g'] + "," +
+                                   this.props.currentColor['b'] + "," +
                                                             1.0 + "))"
                         }}>
                         <input
@@ -547,7 +520,7 @@ class TODOColorPicker extends Component {
                             max="255"
                             step="1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-r"}
-                            value={this.state['currentColor']['r']}
+                            value={this.props.currentColor['r']}
                             onChange={(e, channel) => this.handleChange(e, 'r')}
                             onInput={(e, channel) => this.handleChange(e, 'r')}
                             className="list-color-wheel-sliders">
@@ -557,13 +530,13 @@ class TODOColorPicker extends Component {
                         className="list-color-wheel-slider-container"
                         style={{
                             background: "linear-gradient(to right, rgba(" +
-                                this.state['currentColor']['r'] + "," +
+                                   this.props.currentColor['r'] + "," +
                                                               0 + "," +
-                                this.state['currentColor']['b'] + "," +
+                                   this.props.currentColor['b'] + "," +
                                                             1.0 + "), rgba(" +
-                                this.state['currentColor']['r'] + "," +
+                                   this.props.currentColor['r'] + "," +
                                                             255 + "," +
-                                this.state['currentColor']['b'] + "," +
+                                   this.props.currentColor['b'] + "," +
                                                             1.0 + "))"
                         }}>
                         <input
@@ -572,7 +545,7 @@ class TODOColorPicker extends Component {
                             max="255"
                             step="1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-g"}
-                            value={this.state['currentColor']['g']}
+                            value={this.props.currentColor['g']}
                             onChange={(e, channel) => this.handleChange(e, 'g')}
                             onInput={(e, channel) => this.handleChange(e, 'g')}
                             className="list-color-wheel-sliders">
@@ -582,12 +555,12 @@ class TODOColorPicker extends Component {
                         className="list-color-wheel-slider-container"
                         style={{
                             background: "linear-gradient(to right, rgba(" +
-                                this.state['currentColor']['r'] + "," +
-                                this.state['currentColor']['g'] + "," +
+                                   this.props.currentColor['r'] + "," +
+                                   this.props.currentColor['g'] + "," +
                                                               0 + "," +
                                                             1.0 + "), rgba(" +
-                                this.state['currentColor']['r'] + "," +
-                                this.state['currentColor']['g'] + "," +
+                                   this.props.currentColor['r'] + "," +
+                                   this.props.currentColor['g'] + "," +
                                                             255 + "," +
                                                             1.0 + "))"
                         }}>
@@ -597,7 +570,7 @@ class TODOColorPicker extends Component {
                             max="255"
                             step="1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-b"}
-                            value={this.state['currentColor']['b']}
+                            value={this.props.currentColor['b']}
                             onChange={(e, channel) => this.handleChange(e, 'b')}
                             onInput={(e, channel) => this.handleChange(e, 'b')}
                             className="list-color-wheel-sliders">
@@ -609,32 +582,32 @@ class TODOColorPicker extends Component {
                         style={{
                             background: "linear-gradient(to right, hsla(" +
                                                               0 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 0%, hsla(" +
                                                              60 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 16.66%, hsla(" +
                                                             120 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 33.33%, hsla(" +
                                                             180 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 50%, hsla(" +
                                                             240 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 66.66%, hsla(" +
                                                             300 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 83.33%, hsla(" +
                                                             360 + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['s'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + ") 100%)"
                         }}>
                         <input
@@ -643,7 +616,7 @@ class TODOColorPicker extends Component {
                             max="359"
                             step="0.1"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-h"}
-                            value={this.state['currentColor']['h']}
+                            value={this.props.currentColor['h']}
                             onChange={(e, channel) => this.handleChange(e, 'h')}
                             onInput={(e, channel) => this.handleChange(e, 'h')}
                             className="list-color-wheel-sliders">
@@ -653,13 +626,13 @@ class TODOColorPicker extends Component {
                         className="list-color-wheel-slider-container"
                         style={{
                             background: "linear-gradient(to right, hsla(" +
-                                this.state['currentColor']['h'] + "," +
+                                   this.props.currentColor['h'] + "," +
                                                               0 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + "), hsla(" +
-                                this.state['currentColor']['h'] + "," +
+                                   this.props.currentColor['h'] + "," +
                                                             100 + "%," +
-                                this.state['currentColor']['l'] * 100 + "%," +
+                                   this.props.currentColor['l'] * 100 + "%," +
                                                             1.0 + "))"
                         }}>
                         <input
@@ -668,7 +641,7 @@ class TODOColorPicker extends Component {
                             max="1"
                             step="0.001"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-s"}
-                            value={this.state['currentColor']['s']}
+                            value={this.props.currentColor['s']}
                             onChange={(e, channel) => this.handleChange(e, 's')}
                             onInput={(e, channel) => this.handleChange(e, 's')}
                             className="list-color-wheel-sliders">
@@ -678,32 +651,32 @@ class TODOColorPicker extends Component {
                         className="list-color-wheel-slider-container"
                         style={{
                             background: "linear-gradient(to right, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                               0 + "%," +
                                                             1.0 + ") 0%, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                           16.66 + "%," +
                                                             1.0 + ") 16.66%, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                           33.33 + "%," +
                                                             1.0 + ") 33.33%, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                              50 + "%," +
                                                             1.0 + ") 50%, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                           66.66 + "%," +
                                                             1.0 + ") 66.66%, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                           83.33 + "%," +
                                                             1.0 + ") 83.33%, hsla(" +
-                                this.state['currentColor']['h'] + "," +
-                                this.state['currentColor']['s'] * 100 + "%," +
+                                      this.props.currentColor['h'] + "," +
+                                      this.props.currentColor['s'] * 100 + "%," +
                                                             100 + "%," +
                                                             1.0 + "))"
                         }}>
@@ -713,7 +686,7 @@ class TODOColorPicker extends Component {
                             max="1"
                             step="0.001"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-l"}
-                            value={this.state['currentColor']['l']}
+                            value={this.props.currentColor['l']}
                             onChange={(e, channel) => this.handleChange(e, 'l')}
                             onInput={(e, channel) => this.handleChange(e, 'l')}
                             className="list-color-wheel-sliders">
@@ -723,13 +696,13 @@ class TODOColorPicker extends Component {
                     <div className="list-color-wheel-slider-container"
                     style={{
                         background: "linear-gradient(to right, rgba(" +
-                            this.state['currentColor']['r'] + "," +
-                            this.state['currentColor']['g'] + "," +
-                            this.state['currentColor']['b'] + "," +
+                               this.props.currentColor['r'] + "," +
+                               this.props.currentColor['g'] + "," +
+                               this.props.currentColor['b'] + "," +
                                                         0.0 + "), rgba(" +
-                            this.state['currentColor']['r'] + "," +
-                            this.state['currentColor']['g'] + "," +
-                            this.state['currentColor']['b'] + "," +
+                               this.props.currentColor['r'] + "," +
+                               this.props.currentColor['g'] + "," +
+                               this.props.currentColor['b'] + "," +
                                                         1.0 + ")), url(./img/checker.jpg)",
                         backgroundRepeat: 'repeat'
                     }}>
@@ -739,7 +712,7 @@ class TODOColorPicker extends Component {
                             max="1"
                             step="0.001"
                             id={"list-" + this.props.listKey + "-color-wheel-slider-a"}
-                            value={this.state['currentColor']['a']}
+                            value={this.props.currentColor['a']}
                             onChange={(e, channel) => this.handleChange(e, 'a')}
                             onInput={(e, channel) => this.handleChange(e, 'a')}
                             className="list-color-wheel-sliders">
@@ -1118,6 +1091,51 @@ class TODOModule extends Component {
         }
     }
 
+    modifyColorWheelColor(listKey, colorType, colorValues){
+        var newRGB;
+        var newHSL;
+
+        if(listKey){
+            switch(colorType){
+                case 'rgb':
+                    newHSL = rgbToHSL(colorValues[0], colorValues[1], colorValues[2]);
+                    this.setState((prevState, props) => {
+                        prevState['lists'][listKey]['currentColor']['r'] = colorValues[0];
+                        prevState['lists'][listKey]['currentColor']['g'] = colorValues[1];
+                        prevState['lists'][listKey]['currentColor']['b'] = colorValues[2];
+                        prevState['lists'][listKey]['currentColor']['h'] = newHSL[0];
+                        prevState['lists'][listKey]['currentColor']['s'] = newHSL[1];
+                        prevState['lists'][listKey]['currentColor']['l'] = newHSL[2];
+
+                        return prevState;
+                    });
+                break;
+                case 'hsl':
+                    newRGB = hslToRGB(colorValues[0] / 360, colorValues[1], colorValues[2]);
+                    this.setState((prevState, props) => {
+                        prevState['lists'][listKey]['currentColor']['h'] = colorValues[0];
+                        prevState['lists'][listKey]['currentColor']['s'] = colorValues[1];
+                        prevState['lists'][listKey]['currentColor']['l'] = colorValues[2];
+                        prevState['lists'][listKey]['currentColor']['r'] = newRGB[0];
+                        prevState['lists'][listKey]['currentColor']['g'] = newRGB[1];
+                        prevState['lists'][listKey]['currentColor']['b'] = newRGB[2];
+
+                        return prevState;
+                    });
+                break;
+                case 'a':
+                    this.setState((prevState, props) => {
+                        prevState['lists'][listKey]['currentColor']['a'] = colorValues;
+
+                        return prevState;
+                    });
+                break;
+                default:
+                break;
+            }
+        }
+    }
+
     renderListEntries(parentListKey){
         var returnObject;
         switch(this.state.lists[parentListKey]['type']){
@@ -1175,7 +1193,23 @@ class TODOModule extends Component {
             if(listName && listName.length){
                 this.setState((prevState, props) => {
                     var nextID = prevState.currentKey.toString();
-                    prevState.lists[nextID] = {name: listName, id: nextID, type: "color", collapsed: false, colorWheelCollapsed: false, contents: {}};
+                    prevState.lists[nextID] = {
+                        name: listName,
+                         id: nextID,
+                         type: "color",
+                         currentColor: {
+                             'r' : 255,
+                             'g' : 255,
+                             'b' : 255,
+                             'h' : 0,
+                             's' : 1.0,
+                             'l' : 1.0,
+                             'a' : 1.0
+                         },
+                         collapsed: false,
+                         colorWheelCollapsed: false,
+                         contents: {}
+                     };
                     return {
                         lists: prevState.lists,
                         currentKey: prevState.currentKey + 1,
@@ -1241,6 +1275,8 @@ class TODOModule extends Component {
                                     {this.state.lists[key]['type'] === 'color' ? (
                                     <TODOColorPicker
                                         listKey={this.state.lists[key]['id']}
+                                        currentColor={this.state.lists[key]['currentColor']}
+                                        modifyColorWheelColor={(listKey, colorType, colorValues) => this.modifyColorWheelColor(listKey, colorType, colorValues)}
                                         collapseWheelFunc={(listKey) => this.collapseWheel(listKey)}
                                         colorWheelCollapsed={this.state.lists[key]['colorWheelCollapsed']}
                                         addEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}

@@ -16,8 +16,7 @@ class App extends Component{
     loadData(dataName){
         //Just to be safe purge Dialogs, object of dialog content does not json well.
         var loadedData = JSON.parse(localStorage.getItem(dataName));
-        if(typeof loadedData !== null && loadedData){
-            console.log(loadedData);
+        if(typeof loadedData !== undefined && loadedData){
             loadedData['dialog'] = undefined;
         }
         return loadedData;
