@@ -818,11 +818,11 @@ class TODOListColorEntry extends Component {
 }
 
 class TODOListEntry extends Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             entryHeight: "20px",
-            value: ''
+            value: props.listEntryText
         };
         this.boundResizeTextArea = this.resizeTextArea.bind(this);
     }
@@ -909,7 +909,7 @@ class TODOListEntry extends Component {
 
 class TODOListHeader extends Component {
     componentDidMount(){
-        if(this.props.listType === "default"){
+        if(this.props.listType === "default" && this.props.newList){
             this.props.addEntryFunc(this.props.listKey, '');
         }
     }
@@ -946,13 +946,21 @@ class TODOListHeader extends Component {
 }
 
 class TODOModule extends Component {
-    constructor(){
-        super();
-        this.state = {
-            currentKey: 1,
-            uniqueListEntryID: 1,
-            lists: {},
-            dialog: undefined,
+    constructor(props){
+        super(props);
+
+        var localStorageData = props.loadData('todoData');
+
+        if(typeof localStorageData !== undefined && localStorageData){
+            this.state = localStorageData;
+        }
+        else {
+            this.state = {
+                currentKey: 1,
+                uniqueListEntryID: 1,
+                lists: {},
+                dialog: undefined,
+            }
         }
     }
 
@@ -993,7 +1001,7 @@ class TODOModule extends Component {
                     }
                 }.bind(this)
             }
-        })
+        });
     }
 
     renderDialog(){
@@ -1060,7 +1068,7 @@ class TODOModule extends Component {
                             uniqueListEntryID: prevState.uniqueListEntryID + 1,
                             currentKey: prevState.currentKey
                         }
-                    })
+                    });
                 break;
                 default:
                 break;
@@ -1207,6 +1215,13 @@ class TODOModule extends Component {
         }
     }
 
+    componentDidUpdate(){
+        //I would say this seems hacky, but apparently benchmarks well as a deep copy.
+        var newData = JSON.parse(JSON.stringify(this.state));
+        newData['dialog'] = undefined;
+        this.props.storeData('todoData', newData);
+    }
+
     renderLists(){
         return Object.keys(this.state.lists).map((key) => {
                     return (
@@ -1219,6 +1234,7 @@ class TODOModule extends Component {
                                 addEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}
                                 collapseFunc={(listKey) => this.collapseList(listKey)}
                                 deleteFunc={(listKey) => this.removeList(listKey)}
+                                newList={(Object.keys(this.state.lists[key]['contents']).length ? false : true)}
                             />
                             <div
                                 className={((this.state.lists[key]['collapsed']) ? "list-entry-container collapsed" : "list-entry-container")}>
