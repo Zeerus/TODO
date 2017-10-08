@@ -428,7 +428,7 @@ class TODOColorPicker extends Component {
                 var y = Math.round(((i * Math.sin(j * Math.PI / 180.0))) + 100);
 
                 //Calculate the color
-                var pixelColor = hslToRGB(j * Math.PI / 180.0 / ( 2 * Math.PI), i / 99, 0.55);
+                var pixelColor = hslToRGB(j * Math.PI / 180.0 / ( 2 * Math.PI), i / 99, 0.5);
 
                 //Store the color in the image.
                 imageData[((x + 200 * y) * 4)] = pixelColor[0]; //Red pixel
