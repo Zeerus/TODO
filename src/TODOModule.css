@@ -536,15 +536,16 @@ header {
   outline: none; }
   .list-color-wheel-controls-collapse-button i {
     font-size: 1.5em; }
-  .list-color-wheel-controls-collapse-button.isCollapsed {
-    -webkit-border-bottom-left-radius: 20px;
-    -webkit-border-bottom-right-radius: 20px;
-    -moz-border-radius-bottomleft: 20px;
-    -moz-border-radius-bottomright: 20px;
-    -ms-border-bottom-left-radius: 20px;
-    -ms-border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px; }
+
+.color-list-empty-collapse {
+  -webkit-border-bottom-left-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-radius-bottomleft: 20px;
+  -moz-border-radius-bottomright: 20px;
+  -ms-border-bottom-left-radius: 20px;
+  -ms-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px; }
 
 .list-entry-table-color {
   background: #777;
@@ -611,3 +612,6 @@ header {
   -moz-border-radius-bottomright: 20px;
   -ms-border-bottom-right-radius: 20px;
   border-bottom-right-radius: 20px; }
+
+.hide-table {
+  display: none; }

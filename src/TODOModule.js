@@ -753,7 +753,7 @@ class TODOColorPicker extends Component {
                 </div>
                 <div>
                     <button
-                        className={"list-color-wheel-controls-collapse-button" + (this.props.colorWheelCollapsed ? " isCollapsed" : "")}
+                        className={"list-color-wheel-controls-collapse-button" + (this.props.colorWheelCollapsed ? " isCollapsed" : "") + (this.props.newList ? " color-list-empty-collapse" : "")}
                         onClick={(listKey) => this.props.collapseWheelFunc(this.props.listKey)}>
                         <i className={(this.props.colorWheelCollapsed? "fa fa-caret-down " : "fa fa-caret-up ")}></i>
                     </button>
@@ -1098,7 +1098,7 @@ class TODOModule extends Component {
         if(listKey){
             switch(colorType){
                 case 'rgb':
-                    newHSL = rgbToHSL(colorValues[0], colorValues[1], colorValues[2]);
+                    newHSL = rgbToHSL(colorValues[0] * 1.0, colorValues[1] * 1.0, colorValues[2] * 1.0);
                     this.setState((prevState, props) => {
                         prevState['lists'][listKey]['currentColor']['r'] = colorValues[0];
                         prevState['lists'][listKey]['currentColor']['g'] = colorValues[1];
@@ -1111,7 +1111,7 @@ class TODOModule extends Component {
                     });
                 break;
                 case 'hsl':
-                    newRGB = hslToRGB(colorValues[0] / 360, colorValues[1], colorValues[2]);
+                    newRGB = hslToRGB(colorValues[0] / 360.0, colorValues[1] * 1.0, colorValues[2] * 1.0);
                     this.setState((prevState, props) => {
                         prevState['lists'][listKey]['currentColor']['h'] = colorValues[0];
                         prevState['lists'][listKey]['currentColor']['s'] = colorValues[1];
@@ -1125,8 +1125,7 @@ class TODOModule extends Component {
                 break;
                 case 'a':
                     this.setState((prevState, props) => {
-                        prevState['lists'][listKey]['currentColor']['a'] = colorValues;
-
+                        prevState['lists'][listKey]['currentColor']['a'] = colorValues * 1.0;
                         return prevState;
                     });
                 break;
@@ -1280,8 +1279,9 @@ class TODOModule extends Component {
                                         collapseWheelFunc={(listKey) => this.collapseWheel(listKey)}
                                         colorWheelCollapsed={this.state.lists[key]['colorWheelCollapsed']}
                                         addEntryFunc={(listKey, listKeyEntryContents) => this.addListEntry(listKey, listKeyEntryContents)}
+                                        newList={(Object.keys(this.state.lists[key]['contents']).length ? false : true)}
                                     />) : ''}
-                                    <table className={"list-entry-table" + (this.state.lists[key]['type'] === "color" ? "-color" : "")}>
+                                    <table className={"list-entry-table" + (this.state.lists[key]['type'] === "color" ? "-color" : "") + ((Object.keys(this.state.lists[key]['contents']).length ? "" : " hide-table"))}>
                                         <tbody>
                                             {this.renderListEntries(key)}
                                         </tbody>

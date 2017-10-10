@@ -113,10 +113,10 @@
     i{
         font-size: 1.5em;
     }
+}
 
-    &.isCollapsed {
-        @include border-only-bottom-radius(20px);
-    }
+.color-list-empty-collapse{
+    @include border-only-bottom-radius(20px);
 }
 
 .list-entry-table-color{
@@ -171,4 +171,8 @@
             }
         }
     }
+}
+
+.hide-table{
+    display: none;
 }
