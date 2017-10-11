@@ -1201,7 +1201,7 @@ class TODOModule extends Component {
                              'g' : 255,
                              'b' : 255,
                              'h' : 0,
-                             's' : 1.0,
+                             's' : 0.0,
                              'l' : 1.0,
                              'a' : 1.0
                          },
