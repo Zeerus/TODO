@@ -230,7 +230,7 @@ class TODOColorPicker extends Component {
         var hashCode = '#';
         var channels = ['r','g','b']
         for (var i = 0; i < channels.length; i++){
-            var contents = this.props.currentColor[channels[i]].toString(16).toUpperCase();
+            var contents = (this.props.currentColor[channels[i]] * 1.0).toString(16).toUpperCase();
             if(contents.length < 2){
                 contents = "0" + contents;
             }
