@@ -452,6 +452,11 @@ class TODOColorPicker extends Component {
                 prevState.mouseDown = true;
                 return prevState;
             });
+            var mouseEvent = new MouseEvent("mousemove", {
+                clientX: evt.clientX,
+                clientY: evt.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
         }.bind(this));
         canvas.addEventListener("mouseup", function(evt) {
             this.setState((prevState, props) => {
